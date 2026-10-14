@@ -1,0 +1,1166 @@
+0x80002a24 func biosA0_printf hand rules: BIOS A0(3f) call stub
+0x8003b448 func ret1_8003b448 hand rules: returns 1
+0x80041900 func stub_80041900 hand rules: empty: jr ra
+0x8004bbbc func stub_8004bbbc hand rules: empty: jr ra
+0x8005bc8c func stub_8005bc8c hand rules: empty: jr ra
+0x80062400 func stub_80062400 hand rules: empty: jr ra
+0x80064c74 func stub_80064c74 hand rules: empty: jr ra
+0x80072c20 func biosA0_memset hand rules: BIOS A0(2b) call stub
+0x80072c30 func biosA0_strcat hand rules: BIOS A0(15) call stub
+0x80072c40 func biosA0_strlen hand rules: BIOS A0(1b) call stub
+0x80072c60 func biosA0_strcpy hand rules: BIOS A0(19) call stub
+0x80072c70 func biosA0_atoi hand rules: BIOS A0(10) call stub
+0x8007405c func biosA0_memcpy hand rules: BIOS A0(2a) call stub
+0x80074b98 func biosA0_strncpy hand rules: BIOS A0(1a) call stub
+0x80074f68 func biosA0_strncat hand rules: BIOS A0(16) call stub
+0x80075094 func biosA0_rand hand rules: BIOS A0(2f) call stub
+0x800757cc func biosA0_strcmp hand rules: BIOS A0(17) call stub
+0x800784a0 func biosA0_strrchr hand rules: BIOS A0(1f) call stub
+0x800785d8 func biosA0_printf_2 hand rules: BIOS A0(3f) call stub
+0x800785e8 func biosA0_GPU_cw hand rules: BIOS A0(49) call stub
+0x800785f8 func biosA0_bcopy hand rules: BIOS A0(27) call stub
+0x80078730 func biosB0_puts hand rules: BIOS B0(3f) call stub
+0x80078748 func biosB0_ChangeClearPad hand rules: BIOS B0(5b) call stub
+0x80078758 func biosC0_ChangeClearRCnt hand rules: BIOS C0(0a) call stub
+0x80079e7c func biosB0_DeliverEvent hand rules: BIOS B0(07) call stub
+0x80079e8c func biosA0_strncmp hand rules: BIOS A0(18) call stub
+0x8007a9f4 func biosA0_SaveState hand rules: BIOS A0(13) call stub
+0x8007aa04 func biosB0_SetCustomExitFromException hand rules: BIOS B0(19) call stub
+0x8007acbc func biosA0_CdRemove hand rules: BIOS A0(72) call stub
+0x8007acd4 func biosB0_ReturnFromException hand rules: BIOS B0(17) call stub
+0x8007ace4 func biosB0_SetDefaultExitFromException hand rules: BIOS B0(18) call stub
+0x8007cadc func biosA0_bzero hand rules: BIOS A0(28) call stub
+0x8007d29c func biosB0_WaitEvent hand rules: BIOS B0(0a) call stub
+0x8007d86c func biosB0_TestEvent hand rules: BIOS B0(0b) call stub
+0x8007d8ac func biosB0_CloseEvent hand rules: BIOS B0(09) call stub
+0x8007d8bc func biosB0_DisableEvent hand rules: BIOS B0(0d) call stub
+0x8007d8cc func biosA0_InitHeap hand rules: BIOS A0(39) call stub
+0x8007d8dc func biosB0_OpenEvent hand rules: BIOS B0(08) call stub
+0x8007d8ec func biosB0_EnableEvent hand rules: BIOS B0(0c) call stub
+0x8007d8fc func biosC0_SysDeqIntRP hand rules: BIOS C0(03) call stub
+0x8007d90c func biosC0_SysEnqIntRP hand rules: BIOS C0(02) call stub
+0x8007dfcc func biosA0_FlushCache hand rules: BIOS A0(44) call stub
+0x800005f0 func cd_ClearEventFlags hand calls BIOS B0 with class 0xf0000003 (CDROM events) specs 0x20,0x80,0x8000,0x100,0x200, clearing event flags
+0x8000066c func cd_ClearAllEventFlags hand like cd_ClearEventFlags plus specs 0x40,0x10; BIOS B0 on CDROM event class 0xf0000003
+0x800011b4 func cd_IssueSetloc hand cdrom 0x1f801800: if idle and ready, sends command 2 with parameter byte from param_1+2, state 0xf2
+0x800012ec func cd_IssueSetmode hand cdrom: stores read request (count, buffer, mode) in state block, writes command 0xe to 0x1f801801 when idle
+0x80001434 func cd_ResetIrqFlags hand cdrom: index 1, writes 0x1f to 0x1f801803 to acknowledge interrupt flags
+0x80001470 func cd_SetIrqEnable hand cdrom: index 1, writes 0x1f to 0x1f801802 enabling all CD interrupts
+0x8000148c func cd_InitDevice hand cdrom,dma,irq: CdInit-like; masks irq, sets DMA3 control 0x1f8010f0, issues command 0xa (Init), polls for ack, returns 1 or 0
+0x800015e0 func irq_DispatchPending hand irq: tests I_STAT&I_MASK per interrupt bit, delivers kernel event (class 0xf000000x spec 0x1000), clears bit if handled
+0x80001bdc func irq_InitCallbacks hand irq,timer: clears I_MASK bits, resets handler slots 0x6418.. via FUN_80001db4, zeroes timers 0-2 registers
+0x80001c80 func irq_SwapHandlerSlot hand returns old value and stores new handler pointer in table at 0x6418 indexed by param_1
+0x80001db4 func kernel_InsertListEntry hand pushes node onto head of linked list in priority table at 0x100 indexed by param_1
+0x80001dd8 func kernel_RemoveListEntry hand unlinks node from priority list table at 0x100, returns removed node or 0
+0x80002520 func kernel_DeliverEvent hand scans event control blocks (7 words each) matching class and spec, marks ready 0x4000 or calls handler
+0x80002a30 func sys_DelayLoop hand busy-wait countdown loop of param_1 iterations used for SIO timing
+0x80003658 func pad_DeselectPort hand sio 0x1f80104a: writes 0xff to port buffer, resets control, short delay, selects slot by param_1
+0x800036d0 func pad_ResetSio hand sio: sets SIO mode 0x88 baud 0xd, control reset sequence 0,2,0x2002 with delays
+0x80003744 func pad_SioIrqHandler hand irq,sio: SIO interrupt handler, calls per-port function table at 0x4b38, signals event 0xf0000011 on completion or error
+0x8000395c func pad_ReadPortPoll hand irq,sio: polled exchange with pad/memcard port, sends 0x01 0x42, checks 0x5a ack, fills 2-byte-per-halfword buffer
+0x80003fd4 func pad_InitPortBuffers hand calls biosA0_printf, stores two pad buffers and zeroes them, sets handler table pointers 0x3d7c/0x362c, returns 1 (PAD_init style)
+0x800040c8 func pad_StartPadSio hand irq: resets SIO, relinks handler node at 0xade8 on list 2, unmasks irq bit 0 (VBlank), enables
+0x80004144 func pad_StopPadHandler hand removes pad handler node 0xade8 from list 2 and restores slot 3, inside critical section syscalls
+0x8000426c func pad_StartPadHandler hand irq: resets SIO, installs handler node on list 2, unmasks VBlank irq, sets running flag 0xae00, returns 1
+0x800042ec func pad_StopPadHandlerFlag hand removes pad handler node from list 2, clears running flag 0xae00, returns 1
+0x80012000 func data_80012000 hand data mistaken for code, bad instruction
+0x8001699c func data_8001699c hand data mistaken for code, bad instruction
+0x80018814 func data_80018814 hand data mistaken for code, bad instruction
+0x800202e8 func stub_800202e8 hand empty function returns immediately
+0x800202f8 func stub_800202f8 hand empty function returns immediately
+0x8002030c func stub_8002030c hand empty function, used as debug print sink (called with malloc error string)
+0x8002031c func stub_8002031c hand empty function returns immediately
+0x80020330 func fmt_IntToString hand sprintf helper: converts integer to string in base by conversion char (d,x,X,o,b,u,p), uses strcat/strlen, reverses digits
+0x80020520 func fmt_Sprintf hand sprintf core: parses format %d %x %s %c %o %b %p with width via atoi, writes to buffer at 0x8007dfdc, returns length
+0x8002090c func mem_InitHeap hand sets heap base from FUN_80020c18 aligned to 4, computes size from limits at 0x80089e0c/10, calls InternalMalloc then Free
+0x8002098c func mem_GetFreeBytes hand sums free-list block sizes (blocks*8) plus unused top-of-heap space
+0x800209c8 func mem_Free hand returns block to address-ordered circular free list, coalescing with neighbours (free)
+0x80020aa0 func mem_SbrkHeap hand extends heap top pointer by param_1 bytes if within limit, returns old top or -1
+0x80020adc func mem_GrowFreeList hand requests heap in 1 KB units via mem_SbrkHeap then adds the new block to free list
+0x80020b40 func mem_Malloc hand first-fit malloc over 8-byte units, string a debug string, grows heap on wrap
+0x80020c18 func mem_GetHeapStart hand returns address 0x800ae100 start of heap memory
+0x80020c28 func stub_80020c28 hand empty function returns immediately
+0x80020c38 func stub_80020c38 hand empty function returns immediately
+0x80020c48 func cd_InitWrapper hand calls FUN_8007359c (CD init) then returns 0
+0x80020c68 func cd_OpenFile hand builds path with strcat (prefix, name, suffix), CdSearchFile-like FUN_800736ec then CdControl(0x15 seek), stores pos in 0x80092504
+0x80020d14 func cd_SeekToSectorOffset hand converts file start with CdPosToInt, adds byte offset >>11, CdIntToPos, CdControl 0x15 (seek), returns 0 or -1
+0x80020db0 func cd_ReadFileBytes hand reads whole 2048-byte sectors with CdRead/CdReadSync then partial tail via sector buffer 0x80093470 and memcpy
+0x80020eb8 func stub_80020eb8 hand tiny function returns 0
+0x80020ec0 func phys_CollideCarWithObjects hand loops car collision objects (count at +0x118, ids at +0x14a, stride 0x44), calls phys_CollideObject, tracks nearest hit distance and flags
+0x800210ec func phys_CollideObjectRotated hand rotates test point by object yaw using sin/cos table, calls phys_TestCollisionPolys per 16-byte entry, rotates normal back
+0x800214f4 func phys_TestCollisionPolys hand big polygon/plane collision test of car against BSP poly list, plane distance dot products, finds hit point and normal, bike-vs-wall
+0x80022070 func phys_QuadEdgeCrossTest hand gte=40: cop2 OP cross products of quad/tri edges against point and direction, returns index of edge failing or -1
+0x80022374 func phys_PrepareObjectCollisions hand loops object pointer array, clears hit mask +0x47, sets +0x4c distance, calls phys_CollideCarWithObjectsSwept for flagged objects
+0x80022408 func phys_SaveContactState hand copies position vector, three shorts and normal into contact globals 0x80092698..0x800926b8
+0x8002248c func phys_ComputeContactBetweenPolys hand merges or computes contact point/normal between two collision polys, switch on poly type 0..5, uses FUN_8002604c
+0x800228e8 func phys_CollideCarWithObjectsSwept hand like phys_CollideCarWithObjects: iterates object ids, calls phys_SweepTestPolyList, accumulates hit bitmask and nearest distance
+0x80022ac4 func phys_SweepTestPolyList hand sweeps object polys against plane, parametric t=(d0<<16)/(d0-d1), marks polys visited with flag 0x10, builds hit record
+0x80022bfc func phys_SweepTestPolyList_tail hand decompiler fragment of the sweep poly test, same logic (plane t, cop2 OP edge cross products, visited flags 0x10), uses in-registers
+0x80023990 func phys_CollideWheelPair hand runs phys_SweepTestPolyList then phys_CollideObjectRotated for two collision spheres (stride 0x44/0x28), keeps nearest results
+0x80023ac8 func phys_InitCollisionPools hand allocates collision sphere pool 0x2530, 140-entry free index lists, 0x8000 and 0x180 buffers, 64 contact records of 0x84 bytes
+0x80023bec func phys_AllocCollisionSlot hand moves an index from free list to used list (gp+0x11d0/0x11d8/0x11dc), increments used count
+0x80023c44 func phys_FreeCollisionSlot hand returns slot index param_1 to free list, swaps used list entry, decrements used count
+0x80023cb0 func phys_AttachCollisionSpheres hand allocates param_2 slots plus one bounding slot for a car, copies sphere offsets/radii, computes bound radius with sqrt, calls FUN_80033180
+0x80023ec0 func phys_DetachCollisionSpheres hand frees all collision slots of a car, calls FUN_800331c0 and sets flag 0x8000
+0x80023f30 func phys_UpdateSphereDistance hand if flag 0x80000 set computes distance from sphere to car pos via sqrt, stores in slot +0x3c, clears flag
+0x8002408c func lev_FindTrackCell hand looks up track grid cell by x/z (>>24 +0x80) with run-length table, falls back to FUN_8003e234, returns cell record
+0x8002420c func phys_BuildCollisionCandidates hand per car: refreshes sphere positions/velocity from car state, finds track cell, calls phys_GatherNearbyTrackPolys, then phys_BuildContacts
+0x800245cc func phys_GatherNearbyTrackPolys hand scans surface patch grid, computes squared distances to a point into 256-entry table, picks nearest cells for collision
+0x80024f88 func phys_SpherePlaneTest hand packed plane normal (10-bit components) dot sphere centre minus radius, returns true if sphere or its sweep penetrates plane
+0x8002508c func phys_TestStaticObjectsForSphere hand reads object count from cell header bits and calls phys_CollideStaticObject for each object table entry
+0x80025148 func phys_CollideStaticObject hand rotates sphere into object frame via sin/cos table, tests each sub-part (stride 0x14) with phys_TestObjectPart, appends contact records
+0x80025418 func phys_TestObjectPart hand tests sphere against object part by vertex count: 1 point via phys_RaySphereIntersect, 2 edge via FUN_8002604c, else plane tests
+0x800256bc func phys_UpdateSphereStatesFromCar hand gte=5: loads car rotation matrix (+0xd0..) to cop2, writes sphere pos/vel and calls phys_ComputeSpherePosVel for each sphere
+0x80025820 func phys_ComputeSpherePosVel hand gte=6: rotates sphere offset by car matrix, adds linear velocity plus angular x offset cross product, scales by dt, writes world pos and velocity
+0x800259cc func phys_RaySphereIntersect hand ray vs sphere with quadratic via FUN_80025f98, sqrt FUN_80074858, fixed point 8-bit, fills hit position, normal, t
+0x80025f98 func math_SolveQuadraticRoot hand gte=2 leading-zero count scales operands, fixed point discriminant, sqrt via FUN_80074858, returns root or -1 if negative
+0x8002604c func phys_SweepSphereVsEdge hand gte=20: sphere against line segment, GTE cross products, closest point, time of impact, contact point and normal into record
+0x80026824 func math_NormalizeVector hand gte=2 scales vector by leading zero count then calls FUN_80074738 to normalise in place, returns shift
+0x800268c4 func phys_CollideBodyPair hand tests two bodies by distance, flags, then sphere pairs (stride 0x44 table DAT_80092514), fills contact record and normal
+0x80026c80 func phys_TestSphereMotionOverlap hand broadphase sphere pair moving test per axis, then quadratic via FUN_80025f98, returns time of contact
+0x800270fc func phys_SweepSpherePair hand per-axis early outs then swept sphere vs sphere time of impact, same structure as phys_TestSphereMotionOverlap
+0x80027908 func phys_StepCollisionEvents hand runs pre-step, pops queued collision events from heap queue DAT_80096a78 and resolves each via phys_ResolveCollisionEvent
+0x80027a24 func phys_FilterCollisionCallbacks hand calls per-body collision callbacks, clears body slot if callback rejects, swaps bodies if first slot empty, flips normal
+0x80027b30 func phys_CallCollisionCallback hand tiny trampoline calling function pointer param_1 with three arguments
+0x80027b5c func phys_ResolveCollisionEvent hand applies collision response by contact type (1,2,8,0x10,0x40): impulses, friction, wheel and body updates for one or two bodies
+0x800281f0 func phys_AddScaledVelocityToContact hand multiplies body velocity (+0x6c..) by dt fixed point and adds into contact position (+0x20..)
+0x80028290 func phys_ApplyEqualOppositeImpulse hand computes relative velocity, impulse via FUN_800304e4, applies half each way to two bodies, recomputes momentum with mass
+0x8002845c func phys_AdvanceRemainingBodies hand loops body list at gp+0x11e4, advances unprocessed bodies to given time via FUN_8002f6ac or FUN_80028948
+0x80028508 func phys_QueueCollisionEvent hand allocates event slot in priority queue DAT_80096a78, stores two bodies, contact position, normal, flags and time
+0x800286a0 func phys_PopCollisionEvent hand pops earliest event from priority queue, returns event record pointer and time
+0x80028714 func phys_RemoveEventsForBodies hand scans event queue backwards and removes entries involving either body, returns count removed
+0x80028850 func phys_PreStepBodies hand loops all bodies calling per-body setup FUN_80030800 or FUN_80031e84 by flag 0x2000, resets counters
+0x800288d8 func phys_PostStepBodies hand calls FUN_800309d0 then FUN_8002f2ac on each body lacking flag 0x8000 in body list
+0x80028948 func phys_AdvanceBodyPosition hand adds velocity times dt to position, advances body time (+0x124), registers moved body in DAT_80096f3c list
+0x80028a38 func phys_StoreContactInSphere hand copies contact position, normal and distance from record into body collision sphere (stride 0x44)
+0x80028a98 func phys_ContactToBodyLocal hand shifts contact position left 8 and subtracts body position, then masks low byte
+0x80028b24 func math_FixedDivSafe hand fixed point divide shifting by 8, falls back to remainder refinement with cop2 leading zero count if overflow
+0x80028b34 func math_FixedDiv8 hand tiny divide (param_1 shifted left 8) by param_2 with divide-by-zero trap
+0x80028c24 func math_ScaleVector8 hand multiplies 3-vector by scalar with 8-bit fixed point result
+0x80028c94 func math_FixedDiv16 hand gte=2 fixed point divide (16-bit fraction) with remainder refinement using leading zero count
+0x80028d38 func phys_ApplyWallImpulse hand collision impulse of one body against static surface: normal velocity, restitution, updates linear and angular momentum
+0x80028f44 func phys_ApplyBodyBodyImpulse hand two-body collision impulse from normal and inverse masses and inertia, updates both bodies momentum, velocity and angular velocity
+0x800292b0 func phys_ComputeBounceVelocity hand negates restitution field, scales surface normal by it, adds normal shifted 7 to produce bounce vector
+0x8002936c func phys_AddPositionOffset hand adds vector to body position and, if range check fails, calls FUN_8003e3b4 and FUN_8003e184 to refresh cell
+0x80029458 func phys_AccumulateContacts hand sums contact normals and positions across body spheres by mask, normalises, averages, returns 1 if none
+0x8002981c func math_Dot3 hand fixed point 16-bit dot product of two 3-vectors
+0x8002988c func math_Cross3 hand fixed point 16-bit cross product of two 3-vectors into param_3
+0x80029954 func math_ScaleVector16 hand multiplies 3-vector by scalar, result shifted right 16
+0x800299c4 func math_MulMatrix3Vector hand multiplies 3x3 matrix (9 ints) by vector with 16-bit fixed point shift
+0x80029b18 func math_MulMatrix3x3 hand multiplies two 3x3 int matrices, products shifted right 16, result into param_3
+0x80029bac func math_ScaleShortMatrixRows hand scales rows of 3x3 short matrix (shifted left 4) by per-row int factors into int matrix
+0x80029c1c func math_NormalizeVec3Dispatch hand picks precise FUN_80029e14 if all components under 0xb40001, else prescaled FUN_80029cac
+0x80029cac func math_NormalizeVec3Scaled_Large hand normalises large 3-vector: components pre-shifted 16, sqrt, clamp 0x7fff, reciprocal scales vector by param_2
+0x80029e14 func math_NormalizeVec3Scaled_Small hand normalises 3-vector with sqrt of dot, reciprocal via FUN_80028c94, times param_2
+0x80029f4c func math_NormalizeQuatDispatch hand picks FUN_80029ffc if all four components under 0xb40001 else FUN_8002a144
+0x80029ffc func math_NormalizeQuat_Small hand normalises 4-component quaternion with sqrt of sum of squares and reciprocal scaling
+0x8002a144 func math_NormalizeQuat_Large hand normalises large quaternion: prescaled sum of squares, clamp 0x7ff8, reciprocal multiplies four components
+0x8002a2c0 func math_QuatToShortsCall hand packs four quaternion words to shorts (shift 4) and passes them to FUN_8005a7bc
+0x8002a330 func math_QuatRotateVector hand rotates vector by quaternion via two quaternion products with conjugate, writes vector part back
+0x8002a3f8 func math_QuatMultiply hand quaternion product: w=ab-dot(v1,v2), v=a*v2+b*v1+cross(v1,v2), 16-bit fixed point
+0x8002a510 func math_EulerToQuaternion hand builds quaternion from three half-angles using table sin/cos (FUN_8002a700, FUN_8002a5f4)
+0x8002a5f4 func math_TableSin hand sine of 16.16-ish angle (period 0x6487f) from quarter-wave table at 0x8007e120, index shifted 9
+0x8002a700 func math_TableCos hand cosine as table sine with quarter period offset 0x19220, same 0x8007e120 table
+0x8002a7fc func math_NormalizeVec3Safe hand prescales 3-vector right 3 if large, computes length via FUN_8002a950 then divides via FUN_8002a8b8
+0x8002a8b8 func math_ScaleVec3ByReciprocal hand multiplies 3-vector by reciprocal of length via FUN_80028c94
+0x8002a950 func math_Vec3Length hand sum of squares (with optional shift right 2) to integer sqrt FUN_8002aa10, compensating shift
+0x8002aa10 func math_IntSqrt hand gte=2 leading zero count normalises input, bitwise binary-search integer square root over 16 bits
+0x8002aab4 func phys_GetSurfaceGripFactor hand looks up surface type of wheel contact, derives 5-bit grip fraction, scales param_3 by (1 - frac/32) or zero
+0x8002ab78 func phys_ApplySurfaceDrag hand by surface type code (1..9) takes fraction of velocity along direction and subtracts from vector, scales second value
+0x8002ac84 func game_StepGearChange hand if game mode over 3, shifts gear by param (-1 up, +1 down, else neutral) via FUN_80064000, updates gear index +0x394
+0x8002ad7c func car_UpdateWheelForces hand per-axle wheel loop (stride 0x90): engine force, drag, slip via FUN_8002ba80 fixed divide, integrates wheel speed
+0x8002b754 func car_GetRevLimit hand reads +0x444 limit, scales 7/8 under a flag, clamps minimum 0xc00
+0x8002b7a8 func car_ComputeWheelSlipVelocity hand dot products and two vector transforms give slip vector, normalized by length when over threshold
+0x8002b990 func car_IntegrateWheelSpin hand adds scaled delta to wheel spin at +0x58, zero-crossing clamp, clamps +-0x60000, accumulates into +0x60
+0x8002ba10 func math_DotProduct3 hand fixed-point 16.16 three-component dot product of two int vectors
+0x8002ba80 func math_FixedDiv hand 16.16 fixed-point divide using GTE leading-zero count (cop2 0xf000/0xf800), div-by-zero trap
+0x8002bb24 func math_VectorLength hand squares three components fixed-point, shifts if large, calls integer sqrt FUN_8002bbe4
+0x8002bbe4 func math_FixedSqrt hand bitwise integer square root with GTE leading-zero count normalization
+0x8002bc88 func car_ResetWheelState hand loads GTE rotation matrix from car, zeroes both wheel structs (stride 0x90), sets defaults 120000
+0x8002be9c func car_RefreshWheelSuspension hand loads GTE rotation from +0xd0 and calls FUN_8002bf44 for both wheels
+0x8002bf44 func car_SetWheelCompression hand computes wheel compression halfword from 0x2d0000 minus height if wheel flag bit0 set
+0x8002bf9c func car_ComputeSteeringAxes hand builds heading from vectors using sin/cos table lookups, GTE rotate (cop2 0x486012), normalizes two axes
+0x8002c200 func car_AddScaledStep hand adds 0xd920 scaled by +0xb4 factor (unless 1.0) to +0x7c accumulator; provisional
+0x8002c244 func car_Create hand loads bike and cockpit model (debug strings), copies BikeChars stats, sets start position
+0x8002c7e8 func car_ResetToStart hand places car at start grid point from level table, aligns orientation matrix, clears state, calls FUN_8002caec
+0x8002caec func car_ClearDynamicState hand zeroes velocities, accumulators, wheel spin, gear, rpm fields; sets rpm default 73000
+0x8002cc54 func car_CollisionCallback hand impact handler stored at car+0x154; computes impact strength, picks surface sound class from tile, sets crash flag at +0x4b8
+0x8002d058 func math_DirectionToYawQuat hand normalizes dir, outputs w=sqrt((1+z)/2) and y=+-sqrt((1-z)/2) with sign of x: a yaw-about-Y quaternion
+0x8002d11c func car_ApplyWheelieStoppie hand adjusts velocity from pitch/lean state and rear/front wheel contact using dot products; provisional
+0x8002d478 func car_UpdateSteering hand converts steer input byte at +0x384 into steering angle at +0x37c scaled by speed, applies lateral push
+0x8002d994 func car_UpdatePartDamageFlags hand loops parts of model, sets or shifts halfword at +0x40 depending on mode flag; provisional
+0x8002da88 func math_CrossProduct hand fixed-point 16.16 cross product of two int vectors into third
+0x8002db50 func car_InitWheelCollisionData hand copies two wheel entries (stride 0xe shorts) into car, computes max radius via sqrt FUN_80074858
+0x8002dd74 func car_UpdateAllWheelContacts hand per car loop: ground collision per wheel via FUN_8002e108, copies contact data, sets wheels-on-ground count at +0x426
+0x8002e108 func car_ProbeWheelGround hand wheel ground query: fills contact normal and offset from collision result, reads tile surface type, returns 1 if touching
+0x8002e2a0 func stub_8002e2a0 hand orphan tail fragment storing surface pointer and returning 1; provisional
+0x8002e318 func car_UpdateWheelContactPoint hand GTE rotate (cop2 0x486012) wheel offset into world, cross with angular vel, adds car velocity
+0x8002e4bc func car_UpdateWheelPoints hand loads GTE rotation from car and calls FUN_8002e568 for both wheels
+0x8002e568 func car_UpdateWheelPoint hand GTE rotates wheel position and offset, computes world position and velocity of wheel contact
+0x8002e728 func math_DotProduct3_2 hand fixed-point 16.16 dot product of two 3-int vectors
+0x8002e798 func math_CrossProduct_2 hand fixed-point 16.16 cross product of two 3-int vectors
+0x8002e860 func car_SetupSuspensionTables hand sums two wheel spring bytes, stores per-bike suspension table pointers and total in tables at 0x80096ef8/0x80096f28
+0x8002e8cc func car_SetupSuspensionTablesTail hand orphan tail rounding total up to even and indexing table 0x8007e4fc; provisional
+0x8002e910 func car_ApplySuspensionForces hand per wheel in contact computes spring/damper force vs penetration, accumulates linear force and torque into car velocity
+0x8002ecc8 func car_ApplyWheelGroundImpulse hand collision impulse for a wheel hitting ground: relative velocity along normal, divides by mass term, updates linear and angular velocity
+0x8002f000 func car_ResolveBodyGroundPenetration hand pushes car out of ground using deepest wheel penetration and averaged contact normals
+0x8002f204 func car_InitPhysicsBody hand zeroes body state, copies physical params (mass, inertia) from stats block, builds orientation matrix, calls FUN_8002f2ac
+0x8002f2ac func body_UpdateInertiaFrame hand converts shorts to fixed, multiplies matrices, transforms vector into body frame, computes deltas
+0x8002f3fc func body_IntegrateVelocity hand scales velocity by factor at +0x80, clamps components to 0x490000, normalizes via FUN_8002aa10 when too fast
+0x8002f6ac func body_StepAndSync hand calls FUN_8002f7a4 integrator, adds offset, bumps +0x124 counter, refreshes cell data when position byte changed
+0x8002f7a4 func body_IntegratePositionOrientation hand semi-implicit integration of position, velocity and orientation matrix with time step squared; renormalizes matrix FUN_80029f4c
+0x8002fbc0 func body_ApplyAccumulatedImpulses hand adds scaled accumulators +0x78..+0x8c into velocity +0x44..+0x58 with overflow guard, then zeroes them
+0x8002fdf0 func car_ApplyBodyScrapeFriction hand surface-type based friction on slide, spawns spark effect with LCG rand 0x41a7, damps linear and angular velocity
+0x800303b4 func body_GetPointVelocity hand velocity at point: cross of angular velocity with offset plus linear velocity
+0x80030424 func body_ProjectOnNormal hand projects vector onto contact normal using FUN_8002981c dot, outputs component vector and magnitude
+0x800304e4 func math_SplitNormalTangent hand splits vector into component along normal and remaining tangent part
+0x800305ec func body_AddImpulseAccumulators hand adds two 3-vectors into linear and angular accumulators at +0x78 and +0x84
+0x80030650 func body_SetVelocity hand stores velocity at +0x6c and scales by factor at +0xb4 into +0x44 momentum
+0x800306d4 func body_RemoveNormalVelocity hand removes component along contact normal from linear and angular velocity
+0x80030800 func car_UpdateBodyCollision hand per car: tick timers, compute contact velocity, friction via FUN_8002fdf0, add impulses, apply accumulated
+0x800309d0 func car_UpdatePhysicsAll hand per frame loop over all cars: unpacks matrix, steering axes, wheel contacts, suspension, steering, engine forces
+0x80030e0c func car_SleepWhenSlow hand when two wheels grounded and speed sums below thresholds, zeroes linear and angular velocity and wheel spin
+0x80030fc0 func body_SleepWhenStationary hand if velocity and angular velocity magnitudes below limits zeroes all motion and accumulators, sets flag 0x10000
+0x800310b0 func car_ApplyAirDrag hand computes drag force from velocity via FUN_80031290 with coefficient 0xc and adds to force accumulator
+0x80031118 func car_ApplyWheelRollingResistance hand per wheel picks coefficient by surface type (switch on tile type) and adds drag force and torque
+0x80031290 func body_ComputeDragForce hand drag opposing velocity: speed squared times coefficient times factor, normalized direction negated and scaled
+0x8003138c func car_UpdateCrashState hand sets crash flag at +0x4b8 from tilt, airtime and slow speed; increments crash counter up to 100
+0x80031470 func car_ApplyWheelFrictionAll hand loops all cars and their two wheels in contact, calls FUN_8003164c and sums linear and angular results into velocities
+0x8003164c func car_ApplyWheelFriction hand wheel tyre friction: slip vector cross product, length compare vs 1000, clamps and scales friction impulse
+0x80031848 func math_VectorLength_2 hand squares three fixed components, shifts if large, integer sqrt via FUN_80031908
+0x80031908 func math_FixedSqrt_2 hand bitwise integer square root with GTE leading-zero normalization
+0x800319ac func math_CrossProduct_3 hand fixed-point 16.16 cross product of two 3-int vectors
+0x80031a74 func math_MulMatrixVector hand 3x3 fixed-point matrix times 3-vector into output vector
+0x80031bc8 func math_NormalizeVector_2 hand scales vector by 1/length (math_FixedDiv_2 of 1.0 and length)
+0x80031c60 func math_SetVectorLength hand pre-shifts vector down using GTE leading-zero count, then scales to the requested length; returns 0 for zero vector
+0x80031da0 func math_FixedDiv_2 hand 16.16 fixed-point divide using GTE leading-zero count (cop2 0xf000/0xf800)
+0x80031e44 func car_SetAnimStream hand stores stream pointer from table DAT_800a975c at index, clears counters, sets flag 0x2000; provisional
+0x80031e84 func obj_RunPathScript hand opcode interpreter on script ptr +0x140 and offset +0x11a: set velocity, wait, set position, spline path segments, scales velocity
+0x80032034 func obj_RunPathScriptWaitTail hand orphan tail of obj_RunPathScript: wait-counter handling at +0x146 then segment advance
+0x80032050 func obj_RunPathScriptSegmentTail hand orphan tail of obj_RunPathScript: spline segment advance, blends tangents, builds orientation from heading
+0x8003228c func obj_RunPathScriptSplineTail hand orphan tail of obj_RunPathScript: spline blend weights, velocity update, orientation matrix write at +0xd0
+0x8003277c func math_SplineBlend4 hand blends four 3-vectors with weights from table DAT_8007e54c, writes 16.16 result vector
+0x800329d8 func math_VectorDiffScaled hand output = ((b - a) >> 8) * scale per component for 3-int vectors
+0x80032a34 func col_TestAllPairs hand loops pair list at 0x80096778 calling FUN_80032c78 and FUN_80032f44, summing result counts
+0x80032b10 func col_TestObjectPair hand validates two objects (flag at +0x172), fills pair record 0x8009253c, runs pair tests, sums results
+0x80032c78 func col_TestBodyPairs hand broad-phase culls by position >>0x17, loops body pairs, calls FUN_800268c4 contact test and FUN_80028508 impulse response, returns contact count
+0x80032f44 func col_ResolveBodyList hand flags active bodies, runs FUN_80022374 solver, then per body FUN_80029458 and FUN_80028508 to resolve contacts, returns count
+0x80033154 func obj_IsType4Or7 hand returns 1 if object type (flags and 0x1ff) is 4 or 7 else 0
+0x80033180 func col_AddBodyToList hand appends body to global body array 0x8009252c, increments count DAT_80092530, clears +0x13c group link
+0x800331c0 func col_RemoveBodyFromList hand removes body from global list by swap-with-last and from its group list via +0x13c
+0x80033298 func col_ResetBodyFrameState hand per body clears contact fields +0x48,+0x49,+0x4b,+0x4d and sets collision state byte at +0x172 by type
+0x80033358 func col_BuildBodyGroups hand rebuilds group table at 0x80096778 from body linked lists, dedupes by quantized position key, calls FUN_80033608
+0x80033608 func col_AddBodyToGroup hand appends body to group record (stride 0xc) and stores group pointer at body +0x13c
+0x80033644 func body_SetResetTarget hand sets +0x49 target (type 4 goes via FUN_8002f6ac with delta) and sets state +0x4d to 0x20
+0x800336a4 func car_RecoverToNearestTrackPoint hand for bodies in state 0x20 finds nearest track waypoint, builds position and heading, respawns via FUN_80033a98 and FUN_80033bec
+0x80033a98 func body_SaveRespawnState hand copies body struct (0x63 words, or 0x84c for type 3) into respawn buffer 0x80096f8c plus matrix and vector copies
+0x80033bec func body_RestoreRespawnState hand stops body via FUN_8003e3b4 and writes position, matrix and orientation fields from respawn data
+0x80033d90 func car_CheckOffTrackRespawn hand per car timer: if below track height or crashed too long sets state 0x20 on car and linked body, clears flag 0x10000
+0x80033f04 func game_SetupPlayerCountFlags hand provisional reads BootSys +0x4c4, +0x37 and mode switch to set gp flags at +0xa0/+0xa4/+0xa8, calls FUN_80039c6c
+0x80033fbc func ai_InitDriverState hand clears 0x11 words at +0x4e4 and AI fields 0x4e8..0x526, sets state 0x40 and id copy, calls FUN_80038f68 and FUN_800396c0
+0x800340b8 func ai_UpdateDriver hand per-frame AI step: state at +0x4e8 selects handlers, cycles +0x4fd counter, calls steering, throttle and path functions
+0x80034258 func ai_ClearLookaheadTable hand zeroes 0x14 lookahead entries (stride 0x34) at 0x80099170
+0x80034290 func ai_ComputeLookaheadNode hand direction vector to track node, tangent to next node, normalizes, stores dot products in lookahead entry
+0x800344f0 func ai_UpdateLookaheadSideTests hand tests lookahead nodes of other segments against side lines using FUN_80034678, bumps score by 3 when passing
+0x80034678 func ai_SideOfLineTest hand fixed-point cross products of point against two lines, returns 1 if sign flip depending on direction param
+0x80034780 func ai_BuildLookaheadNodeList hand gathers up to 0x14 upcoming track nodes incl. branch links via FUN_800349a0 into lookahead table; returns remaining count
+0x800349a0 func ai_AppendLookaheadNodes hand walks track node chain via FUN_80035a18 filling lookahead entries (segment id, node, depth, flags) until depth or table end
+0x80034c48 func ai_ChooseLookaheadTarget hand builds lookahead node table, scores nodes (sides, riders, distance) and picks best target node into car+0x4e4..0x4f8
+0x8003527c func ai_ClearNodeQueue hand zeroes head and tail indices of the 0x14-entry node ring queue held in gp variables
+0x8003528c func ai_PushNodeQueue hand appends segment id and node id to ring queue (arrays 0x800995a8, 0x80099580) unless full, wraps at 0x14
+0x800352f4 func ai_PopNodeQueue hand reads segment id and node id at queue head into outputs, advances head with wrap at 0x14
+0x80035358 func ai_NodeQueueIsEmpty hand returns true when ring queue head index equals tail index
+0x80035370 func ai_SetFlagBit1 hand ORs mask from FUN_8005f958(+0x528, 1) into flag halfword at +0x530
+0x800353b0 func ai_ClearFlagBit1 hand clears mask from FUN_8005f958(+0x528, 1) in flag halfword at +0x530
+0x800353f0 func ai_SetFlagBit2 hand ORs mask from FUN_8005f958(+0x528, 2) into flag halfword at +0x530
+0x80035430 func ai_SetFlagBit3 hand ORs mask from FUN_8005f958(+0x528, 3) into flag halfword at +0x530
+0x80035470 func ai_SetFlagBit11 hand ORs mask from FUN_8005f958(+0x528, 0xb) into flag halfword at +0x530
+0x800354b0 func flag_IsBit27Clear hand returns true when bit 0x8000000 of the argument is clear
+0x800354c0 func math_VectorLengthShort3 hand sum of squares of three shorts passed to FUN_80074858 (likely integer sqrt)
+0x80035514 func math_LengthSquaredShort3 hand returns x*x+y*y+z*z of a three-short vector
+0x80035550 func list_ContainsShort hand searches short array up to count for value, stops at zero entry, returns 1 if found
+0x80035590 func ai_FindNearestTrackNode hand scans all track segments for the node closest to the car position, stores segment and index in AI struct
+0x80035690 func ai_RefineNearestTrackNode hand checks neighbour nodes and linked branch segments of current node, picks closest, falls back to start node table at +0x7c
+0x80035a18 func track_GetNextNode hand next node index in segment honoring direction and loop flags, returns 0 at open end
+0x80035a80 func track_GetPrevNode hand previous node index in segment honoring direction and loop flags, returns 0 at open end
+0x80035ae8 func ai_ComputeSteerToward hand cross product with direction, picks dominant axis, returns angle via FUN_80028c94 if component above 0x3ff
+0x80035bcc func track_NodeWithinBox hand returns 1 if node position (shorts <<16) is within half-extent param on all three axes of point
+0x80035be0 func track_NodeWithinBoxTail hand register-argument tail variant of track_NodeWithinBox, same per-axis abs compare
+0x80035c84 func track_IsCarBesideNode hand builds node direction vectors, normalizes, returns true when dot with offset vector below 5000
+0x80035e0c func track_AdvanceNodeToCar hand walks forward or backward up to 0x32 nodes until node is within box of car, updates segment node pointer and index
+0x80035fd0 func track_ComputeCurvature hand direction vectors from prev and next nodes, cross product squared magnitude signed by y, measures road bend
+0x8003624c func ai_SetTrackNodeFromNearest hand copies segment byte at +5 and node index into AI fields +0x4e4 and +0x4e6
+0x8003626c func ai_ResetDriveState hand clears AI control fields 0x4e8-0x4fd, sets 0x536=8, calls FUN_80035690, mod-5 index from DAT_80092958
+0x80036338 func ai_GetNodeDirection hand wrapper: passes node byte and ushort from param_2 to FUN_80036430 direction computation
+0x80036368 func ai_GetTargetNodeDirection hand picks current or next track node (stride 0xc) by comparing byte field at +2, then calls FUN_80036430
+0x80036430 func ai_ComputeNodeDirection hand direction vector between track node points (0x10 stride, 16.16 fixed), normalised via FUN_80029c1c, default 0x10000,0,0
+0x800365b8 func ai_UpdateInputFlagTimer hand counts +0x4ea up to 0x14 then resets; clears flag bits in +0x530 via FUN_8005f958
+0x80036624 func ai_UpdateRandomMistakeTimer hand switch on difficulty; LCG rand 0x41a7 sets countdown at +0x4ea, calls FUN_80035370/FUN_800391fc
+0x80036850 func ai_GetActiveSlotValue hand scans two 0x90-stride slots for flag bit 1; returns bits 8-12 of pointed record field +0xc
+0x800368cc func ai_ComputeSteerValue hand clamps scaled steer to +-0x4000 with deadzone 0x200, 64-bit multiply, sign handling
+0x80036964 func ai_UpdateThrottleBrakeDecision hand large AI routine: distances to waypoint and other riders (stride 0x17 words), calls FUN_800353b0/f0/430/370 control setters
+0x80036e88 func ai_ClearInputFlags hand stores zero into halfword +0x530
+0x80036e90 func ai_SetSteerAxisByte hand converts signed param to byte 0-255 centred 0x80, stored at +0x528 if flag +0x25c bit 1
+0x80036ee0 func ai_ComputeSteerTargetDir hand abs-limit 0xb00000 vector, length via FUN_8002a950 or FUN_800354c0, node lookup FUN_80035a18, normalise FUN_80029c1c
+0x800370cc func ai_ComputeSteerAxis hand turns target offset into steering byte using FUN_80035ae8 angle, FUN_800368cc clamp 0x582e, FUN_80036e90 store; optional invert
+0x800371f8 func ai_UpdateSteering hand sets stick bytes 0x528/9=0x80, picks next track node (+0x4e4/6), calls ai_UpdateThrottleBrakeDecision, steer axis, FUN_8003743c
+0x8003743c func ai_ApplyRubberBandLimits hand scales speed limits +0x434/+0x444 from table (stride 0x58) by fixed-point factor depending on rider state 0x536
+0x800376a0 func ai_ScanNearbyRiders hand loops all riders (stride 0x17 words), distance/closing speed, calls FUN_80037f98 block and FUN_80037a4c overtake
+0x80037a4c func ai_AddOvertakeAvoidPoint hand computes lateral offset target from two riders' track nodes, writes avoid-point slot DAT_800990d0 (8-byte entries), counter DAT_800913f4
+0x80037f98 func ai_AddRiderAvoidWeights hand accumulates repulsion weight into 0x1a-halfword entries at DAT_80099170 from rider distance, fixed-point divides
+0x80038210 func math_FixedDivChecked hand fixed divide via FUN_80028c94 with overflow check, returns 0x70000000 when divisor tiny or result overflows
+0x80038294 func ai_CollectTrackNodeList hand builds list of nearby track node ids into DAT_800995d0 (0x20 shorts) walking links via FUN_800352f4/FUN_80038584
+0x80038584 func ai_ComputeNodeStepVector hand track node position difference to neighbour (FUN_80035a18/a80), 16.16 fixed vectors, 0x10-byte node records
+0x80038834 func ai_CheckOnRouteCounter hand calls FUN_800388d4 on current node; counts misses in +0x4fc, after 0x3c frames calls ai_ResetDriveState
+0x800388d4 func ai_IsNodeConnected hand breadth-first search over track node links (bitfields at +8/+0xc) for target node within 0x20 list; returns 1 or 0
+0x80038b0c func ai_UpdateStuckCounter hand counts frames at low speed (+0x4d8<10) to set recovery state 0x80 at +0x4e8; counter +0x508 and +0x4ef
+0x80038bfc func ai_UpdateRecoveryDriving hand recovery mode: steers back toward track node direction, reverse/brake choice by dot products, resets state after timeout
+0x80038e8c func ai_FindNearestRiderAhead hand scans riders with state 0x0a, picks minimum lap-position difference; stores index +0x4fe and gap +0x500
+0x80038f68 func ai_LoadSkillProfile hand copies 9 skill bytes from table DAT_8007e950 (stride 9) into +0x513..0x51b, easier adjustments when DAT_800913ec==0
+0x80039158 func ai_RollRandomSpecialMove hand LCG chance using +0x510; sets state 0x200 at +0x4e8 when race time DAT_80092958 > 0x1b9
+0x800391fc func ai_RollMistakeDuration hand switch on skill byte +0x514 returning random frame counts via LCG 0x41a7 with per-level ranges
+0x800396c0 func ai_UpdateBehaviour hand per-frame AI driver: finds rival ahead then calls FUN_800399cc, 80039aa4, 80039ad8, 80039b20, 800397a8, 80039bb4
+0x8003974c func ai_RandomChance8 hand LCG rand, true when (rand*7>>16) less than param low byte
+0x800397a8 func ai_UpdateNitroDecision hand compares lap-positions with other riders (proximity levels 1-3) to adjust odds, stores random flag at +0x50d
+0x800399cc func ai_UpdateBoostFlag509 hand rolls random flag at +0x509 using skill byte +0x515, only after race time 0x15e frames
+0x80039aa4 func ai_RollFlag27 hand random chance from skill byte +0x32 stored at +0x27
+0x80039ad8 func ai_RollFlag26 hand random chance from byte +0x33 stored at +0x26, default 1 before 0x15e frames
+0x80039b20 func ai_RollFlag50c hand random flag at +0x50c from table indexed by DAT_800913f0 (difficulty), off in mode DAT_800913ec==1
+0x80039bb4 func ai_ComputeAggressionTimer hand sets halfword +0x510 from difficulty*0x18+0x98 scaled by gap to rival ahead (+0x500)
+0x80039c6c func race_AssignRandomPairings hand fills DAT_80092574 (6 bytes, 0xff) pairing human and AI riders by random LCG picks
+0x80039d68 func race_AssignRandomPairingsTail hand tail fragment of pairing shuffle: random pick removed from list, stored into DAT_80092574
+0x80039e50 func gfx_InitDrawBuffers hand sets up two draw/display envs DAT_800a1b08/DAT_800a2378 with screen size from game struct, clears DAT_80099610 loading rect colour
+0x80039f30 func gfx_DrawLoadingBarStep hand increments loading progress counter, builds bar rect coords DAT_80099618-26, calls FUN_8007048c to draw
+0x80039fb0 func race_InitLoadAll hand big race setup: loads track by type, init riders, prints memory free strings, picks CD music track, numpolys warning
+0x8003a66c func race_MarkRiderRetired hand clears slot order byte, sets lap-time entries to -1 for rider param
+0x8003a700 func race_ShuffleStartingGrid hand random permutation of AI start slots (LCG DAT_80091c5c), adds per-slot bonus in mode 1
+0x8003a884 func race_UpdateStateMachine hand race phase switch (intro countdown, running, pause, finish) reading pad bits, calls FUN_8006d420 and FUN_80062c34 sounds
+0x8003aff4 func race_ResetStateCounters hand zeroes +0x42c timer, sets two words at +0x405c/+0x61e4 to 9
+0x8003b00c func race_ApplyModeDefaults hand switch on game mode +0x3f8: sets rider count, slot bytes and flags for modes 7, 9, 10
+0x8003b144 func race_ShowDemoOverlayText hand demo/replay/attract setup: debug string, REPLAY, press START to cancel, copyright; DrawText FUN_8006de80, timer +0x438
+0x8003b2ec func demo_SetupAttractRiders hand fills rider/bike/track byte tables at +0x38,+0x44,+0x4a,+0x50 for demo types 1-4 (bike ids 0x1b/0x1c)
+0x8003b450 func pause_ClearState hand zeroes pause menu globals DAT_80099628..80099630 and DAT_800999e6
+0x8003b470 func pause_RunLoop hand while pause active loops FUN_8003bb5c input, FUN_8003ba00 draw, DrawSync/VSync style FUN_80070044/80072c80; restores volume
+0x8003b558 func pause_CheckStartRequest hand detects START pressed (pad bit 0x800) by an active rider, then enters pause via pause_Init and pause_RunLoop
+0x8003b750 func pause_Init hand saves volumes, builds 12 textured quads (poly size 0x28) for pause menu from table DAT_8007f32c, starts sound voice, calls pause_SetupPage
+0x8003ba00 func pause_DrawMenu hand draws 12 pause quads and highlighted entries blinking via DAT_80099630, FUN_8007048c adds primitive, FUN_8006e2ec
+0x8003bb40 func pause_Close hand sets pause active flag DAT_80099628 to 0
+0x8003bb4c func pause_CloseReturn1 hand clears pause active flag and returns 1
+0x8003bb5c func pause_UpdateInput hand pause menu per-frame pad handling: up/down select, left/right adjust sound and music volume, confirm items, quit race state changes
+0x8003c330 func pause_SetupPage hand builds menu page (PAUSE, Sound Volume, Music Volume, Quit Race) item lists and DrawText calls FUN_8006de80
+0x8003c73c func pause_AddMenuPrim hand adds one menu quad (GT4 style code 0x2c/0x28 flat) to array DAT_80099834 (0x28 stride) with position from table DAT_8007f3bc, returns index
+0x8003c920 func pause_SetSliderPos hand repositions the slider quad index param_1 using texture size of table entry and offset param_3
+0x8003c9f0 func str_IntToDecimal hand converts signed int to decimal string with sign, reversed digit buffer, biosA0_strlen
+0x8003cb04 func str_FormatTimeMMSSCC hand formats time ticks into MM:SS:CC text with leading zeros using biosA0_strcat and str_IntToDecimal
+0x8003ccc0 func math_BcdToTicks hand decodes 6 BCD nibbles of lap time to tick count (0xbb8000 per unit) then jump through table PTR_LAB_8001b7bc
+0x8003cd90 func results_BuildTableText hand builds results table rows (position, name, points/time via str_FormatTimeMMSSCC) with biosA0 strcat/strncpy, sorts by points, flags best lap
+0x8003d05c func results_BuildTableTextTail hand mid-function fragment of results_BuildTableText: ranks players and builds per-row strings and times
+0x8003d448 func demo_ShowTitleTextSequence hand attract mode: steps through 36 title strings table (Ducati World) with DrawText FUN_8006de80 timer 100 and slide-out calls FUN_8006e2c4
+0x8003d554 func results_UpdateScreen hand per-rider results state machine drawing RACE RESULTS / EVENT POSITION headers and column titles via DrawText FUN_8006de80
+0x8003df74 func results_CopyStringTable hand clamps +0x41a to 4 and copies 0x36 string pointers (RACE RESULTS table) for language/set param_1
+0x8003e004 func world_FindNodeAtPoint hand looks up spatial grid (0x10-byte rows at DAT_800a96fc, 5 ranges) from fixed-point x,z and returns leaf/node record; sets flag in param_4 if fallback
+0x8003e184 func obj_LinkToWorldNode hand finds world node for object position (+0x38..0x40) via world_FindNodeAtPoint, stores in +0xc, links list A
+0x8003e1dc func obj_LinkToWorldNodeAt hand same as obj_LinkToWorldNode but for explicit position, links list B via FUN_8003e424
+0x8003e234 func world_FindNearestNode hand spiral search of grid rows outward for node ranges nearest to coordinate, returns best pointer
+0x8003e37c func world_LinkObjectListA hand inserts object (0x80-byte slot index) at head of node doubly linked list at +8
+0x8003e3b4 func world_UnlinkObjectListA hand removes object from node list at +8 fixing prev/next halfword indices
+0x8003e424 func world_LinkObjectListB hand inserts object at head of node list at +10 (second list)
+0x8003e45c func world_UnlinkObjectListB hand removes object from node list at +10
+0x8003e4cc func gfx_UpdateAnimatedTextures hand per-frame countdown of animated texture entries, advances frame table and rebuilds 0xc-byte prims via FUN_80074f78 into OT
+0x8003e65c func cam_InitPlayerCamera hand allocates 0x18c object, positions from table DAT_800a9730, clears 0x14-word camera struct, sets default angles and zeroes DAT_8009a4c8 blocks
+0x8003e910 func cam_SetFollowFlag2 hand sets bit 2 in camera flags of rider param_1 unless sentinel 0x12345678
+0x8003e960 func cam_GetTargetPosition hand copies x,y,z (+0x38,+0x3c,+0x40) of camera target object into param_1
+0x8003e9a4 func cam_SetTargetObject hand stores camera target pointer in global slot gp+0x8a4
+0x8003e9b0 func cam_UpdateGroundLimits hand clamps camera smoothing height against track extents (debug strings), calls FUN_8003f038 filter
+0x8003ed74 func cam_UpdateTargetBlend hand smooths camera direction toward target delta, normalizes, builds view basis via FUN_8003eee8 into camera +0xd0 matrix
+0x8003eee8 func cam_BuildViewBasis hand cross products of two normalized vectors, stores 9 shorts (>>4) rotation basis; returns 1 if valid
+0x8003f014 func cam_SetResetFlags hand sets bytes +0x46 and +0x47 to 1 and ORs 0x200 into owner flags
+0x8003f038 func cam_BlendDirections hand normalizes two direction vectors, blends via weights param_3/param_4, writes back result vector
+0x8003f1a0 func math_BlendVectors hand weighted sum of two vectors, random jitter via LCG if nearly opposite, normalizes if length over 0x100
+0x8003f354 func math_PerpendicularOffset hand adds cross product with object velocity (+0x6c) to vector, used for opposite vectors fallback
+0x8003f408 func math_NormalizeByMagnitude hand shifts vector down by log2 magnitude (FUN_80074fd8) to fit range, returns shift amount
+0x8003f50c func math_SegmentPointDistance hand projects point onto segment, returns distance or -1 if outside; optional perpendicular vector output
+0x8003f73c func ai_FindTriggerZoneType2 hand scans 0xe-word trigger zones of type 2 near rider, returns rider index and zone pointer within range
+0x8003f9c8 func ai_FindTriggerZoneType1 hand scans trigger zones of type 1 near rider with timer and angle limits, returns rider index and zone
+0x8003fcb8 func math_InitFactorialTable hand fills DAT_8009a494 table with 0! through 12!
+0x8003fcf4 func math_FixedPowerBits hand fixed-point exponentiation by squaring using bit masks from tables DAT_8007fb3c, DAT_8007fb48
+0x8003fd10 func math_FixedPowerBitsTail hand mid-function fragment of square-and-multiply loop of math_FixedPowerBits
+0x8003fd80 func math_BezierEvaluate hand evaluates Bernstein polynomial curve of order param_2 over 3D control points at t param_4 using factorial table
+0x8003ff50 func cam_GetOffsetForCase hand switch on param_5+param_6 sets camera offset constants (0x6a0, 0x880, 0x420, -0x640 etc.)
+0x80040000 func stub_80040000 hand only stores 0 to second parameter
+0x8004000c func car_AdjustLeanFromVelocity hand dot of velocity (+0x90) with direction (+0x4a4), clamps to 0xc00, scales and adjusts two lean/steer values
+0x80040138 func car_AdjustLeanFromVelocityTail hand tail fragment: stores v0 and reduces s1 by v1/2, register state from owner
+0x80040164 func car_AdjustSteerFromLateral hand scales rider +0x4b0 value by 5/2048, subtracts from steer outputs with deadzone 0x38
+0x800401cc func car_ComputeVelocityDot hand builds velocity and direction vectors from rider +0x90 and +0x4a4 then calls dot product, result unused
+0x80040280 func cam_UpdateFollowPosition hand builds camera basis from target matrix (+0xd0..0xe0), applies offsets from FUN_8003ff50/8004000c/80040164, sets camera object position and view matrix
+0x80040408 func cam_UpdateFollowPositionTail hand mid-function fragment of cam_UpdateFollowPosition: negates basis, sums offsets, writes position, rebuilds basis, relinks node
+0x80040570 func cam_ComputeLookDirection hand blends velocity-based and rider-orientation direction with smoothing weight at +0x48, sets flags 8/0x10, outputs normalized vector
+0x80040938 func cam_ComputeCameraTilt hand from wheel contacts (+0x25c stride 0x90) averages normals, derives position/up vectors for camera; returns 1 if valid
+0x80040d70 func cam_UpdateRiderCamera hand main per-frame camera update; normal mode follows rider, debug free-fly modes 1-3 use pad bits at +0x530 with memset
+0x80041624 func cam_UpdateViewMode hand cycles camera view 0-2 on button, selects distance and height from tables DAT_80091afc/80091b0c, eases values toward target
+0x800418a4 func cam_SetActiveFlag hand stores masked bit in DAT_8009f560 per camera slot; clears two audio channels via FUN_80063a40 when off
+0x80041908 func ai_PrecomputeZoneVectors hand for zone records (0xe words) type 1 and 2 computes delta, midpoint, length, normalized direction
+0x80041a90 func cam_GetViewMode hand returns signed byte at +0x38 of camera struct PTR_DAT_800a9520
+0x80041aa8 func cam_SaveReplayCamera hand if camera mode 5 or flagged, snapshots target position and matrix to DAT_80092614 and DAT_8009a474, calls cam_UpdateFollowPosition, plays sound 0xab
+0x80041bd8 func cam_RestoreSavedCamera hand restores target object position and orientation matrix from snapshot globals when saved flag gp+0x8ac set
+0x80041cd0 func game_GetPlayerCount hand switch on mode byte +0x3fc returns 1 (default), 2 (modes 1,2), 3 or 4 players
+0x80041d30 func audio_PlayAtPositionJittered hand adds LCG random jitter scaled by countdown +0x4e0 and speed +0x4e2 to position, then calls FUN_8005db60 sound
+0x80041ed0 func lev_GetTrackDirection hand from rider track cell (+0x128) reads node segment endpoints and lookup entry, outputs direction vector and side normal
+0x80042148 func cam_ResetAndUpdateRider hand zeroes rider velocity/force fields, calls cam_UpdateViewMode, sets camera flags 4/8 per view mode, then cam_UpdateRiderCamera
+0x8004226c func lev_GetSurfaceTypeAtPoint hand finds world node at point (FUN_8003e004) and returns surface attribute (&0x7f) from table DAT_800a9768
+0x800422c0 func lev_PointHasAttribute hand walks variable-length attribute list for node at point, returns 1 if attribute id param_1 present
+0x8004235c func ai_FindNearestZoneToPoint hand finds closest trigger zone of given type to point within radius, requiring attribute match; fallback zone at DAT_8009a760
+0x8004257c func game_FindNearestRider hand returns index of rider object closest to point (squared distance over >>0x12 values)
+0x8004263c func cam_CopyStateForTrace hand copies 0x60-word and 0x38-word blocks into DAT_8009a004 and DAT_8009a03c then calls FUN_80033a98
+0x80042718 func cam_BeginRiderView hand saves GTE control word, backs up rider block 0x38-0x118, sets flags in DAT_8009f540, restores per-player state, relinks object, sets sound listener
+0x800428ec func cam_SwapViewMatrixSave hand if basis valid saves 8 words to per-player block at DAT_8009a5f0 else loads them to param_3
+0x800429f8 func cam_SetPlayerViewActive hand toggles per-player view flag, calls FUN_800418a4 and FUN_80045574, maintains saturating counter at DAT_8009a508
+0x80042a54 func cam_SetPlayerViewActiveTail hand tail fragment of cam_SetPlayerViewActive: sets active flag, forces timer expire, increments per-view counter
+0x80042b28 func lev_FindNearestPathPoint hand scans 16-byte points of path table entry (+0x60 table stride 0xc) for nearest to position, outputs shifted xyz
+0x80042bfc func cam_UpdatePlayerCameraState hand big per-player camera state machine (states 0-0x10: orbit, replay, cutscene, GTE-rotated offsets), picks zones and targets, smooths positions
+0x80042ff0 func cam_UpdateTvCameraModes hand huge per-player camera state machine, modes 0-10, rand LCG 0x41a7, GTE rotate, copies target pos blocks
+0x80045574 func cam_ForceModeTimerExpire hand sets camera mode timer entry to its limit+1 for current player via gp index
+0x800455b4 func cam_PickRandomMode hand picks next random camera mode and duration via LCG and biosA0_rand, avoids repeating current mode
+0x80045a38 func car_RestoreSavedState hand copies saved block 0x8009a388 back into car+0x38, calls helpers 8003e3b4 and 8003e184 around it
+0x80045b44 func shadow_ResetList hand clears gp+0x12e0 count of registered shadow objects
+0x80045b50 func shadow_InitCarShadow hand initialises two shadow quad prim sets (code 0x3e GT4 semitrans), registers car in 0x8009ac18 list
+0x80045cf0 func car_UpdateAllShadows hand loops cars: builds probes, queries ground, computes shadow corner data per car
+0x80045eb4 func car_SmoothGroundSample hand smooths ground normal 3/4 old plus 1/4 new, computes offset vector to ground hit
+0x80045fb0 func car_FillGroundProbe hand fills probe struct with car position>>8 plus offset and velocity axes shifted left 2
+0x80046034 func shadow_BuildCornerPoints hand computes eight shadow quad corner points and alpha from ground normal and height
+0x80046368 func math_ProjectPointOnPlane hand fixed-point 16.16 dot products projecting point onto ground plane, returns height difference
+0x80046458 func shadow_TransformAll hand loops registered shadows, clears OT pointers, calls shadow_TransformCorners when active
+0x800464ec func shadow_TransformCorners hand RotTransPers (GTE 0x180001) four corners per quad, sets GT4 colour, tracks min depth for OT slot
+0x80046628 func shadow_LinkToOT hand links shadow polygons into ordering table via address masks 0xffffff
+0x800466d8 func pq_Create hand allocates priority queue heap arrays (nodes 100 bytes, heap, free-index stack) for n entries
+0x80046788 func pq_Reset hand resets heap count and refills free-index stack with index<<20
+0x800467cc func pq_Push hand binary heap sift-up insert comparing low 20-bit keys
+0x80046804 func pq_SiftUpTail hand heap sift-up loop fragment using registers in_v0 t0 t1, writes element at parent slot
+0x80046848 func pq_SiftDown hand binary heap sift-down comparing 20-bit keys of two children
+0x80046904 func idxstack_Pop hand returns array element at index field+0x14 then decrements it
+0x80046930 func idxstack_Push hand increments index at +0x14 and stores value in array at +0x10
+0x80046950 func pq_PushFreeIndex hand pops free index, ORs key into low bits, pushes onto heap
+0x800469a0 func pq_PopMin hand removes root of heap, moves last to root, sift-down, returns root via idxstack_Push
+0x80046a10 func pq_RemoveAt hand removes heap element at index, rebuilds upward with pq_SiftDown, returns it via idxstack_Push
+0x80046ab0 func light_BuildAttenuationTable hand allocates 0x1000 bytes, fills table 0x100000/d-3-d for d 0x20..0x3ff
+0x80046b78 func light_InitSectionGrid hand builds attenuation table, clears light slots, allocates zeroed per-section light grid buffers
+0x80046d20 func light_BuildSectionSlotMasks hand per section span packs up to 3 light slot ids per cell into words, uses biosA0_memset
+0x80047188 func light_ApplyToTrackVertices hand GTE squared-distance (0xa00428) per light per vertex, attenuates and blends vertex colours, GTE 69 ops
+0x80047e9c func light_BuildAffectedSpans hand decodes light position cell into up to four section/span ranges, widens by radius level
+0x80048324 func light_RegisterSpansInGrid hand writes slot id and span range into free entries of section grid cells
+0x80048444 func light_UnregisterSpans hand clears slot's entries from section grid and queues dirty spans
+0x80048558 func light_QueueDirtySpan hand appends packed section and span range to dirty list 0x8009c3d8 max 0x40, dedupes last
+0x80048614 func light_AllocAndRegister hand finds free light slot, computes spans, calls light_InitSlot, updates high-water mark
+0x8004872c func light_InitSlot hand fills light slot record: position, colour, radius shift, type, then registers spans
+0x800487f4 func light_FreeSlot hand unregisters spans, clears slot active flag, lowers slot high-water mark
+0x8004884c func light_MoveSlot hand updates light position, re-registers spans when cell coordinates changed
+0x8004892c func light_UpdateAll hand per-frame: decays timers, spawns queued lights, runs per-type update, follows owner positions
+0x80048c88 func light_StepColourAnim hand advances flicker table index and converts 5-5-5 colour to light RGB
+0x80048d0c func light_FadeByLife hand decrements life, fades intensity with life (type 2 linear, type 3 random flicker), frees at zero
+0x80048e14 func light_LoadTrackLights hand initialises slots from level light list DAT_800a9714, optional attached objects
+0x8004900c func light_FollowCarSlot hand moves light slot to owning car position plus offset vector
+0x8004909c func obj_SpawnSpriteType2 hand creates quad object via obj_AllocQuadObject and sets type 2
+0x800490e4 func obj_SpawnFlareType13 hand creates quad object type 0xd with colour bytes, stored in table 0x8009c718
+0x80049184 func obj_AllocQuadObject hand allocates 0x80 bytes, two POLY_FT4 (code 0x2c) with texture from table, sets position
+0x800492d4 func obj_CollectVisibleBySection hand walks section spans, dispatches object types (2,5,8,9,0xd,0x17..) to draw or queue handlers
+0x80049600 func obj_DrawLineDefaultClip hand 12-byte entry loading default clip threshold DAT_80092894 then falling into obj_DrawLineClipped
+0x8004960c func obj_DrawLineClipped hand RotTransPers (GTE 0x180001) two points, depth to OT slot, links 6-word line prim with screen clip test
+0x8004975c func obj_DrawSpriteType2 hand sets GTE far colour from DAT_80091d5c.., calls obj_DrawBillboardQuad for type 2 objects
+0x800497f4 func obj_DrawFlareType13 hand sets GTE far colour from object colour word at +0x68, draws via obj_DrawBillboardQuad
+0x80049888 func obj_DrawAnimatedFlare hand sets colour, steps animation frame position table, draws billboard or simple billboard for type 8
+0x80049a00 func obj_DrawBillboardQuad hand RTPS projects centre, scales by distance, GTE interpolation fog, builds 4-vertex prim (tag len 9), links in OT
+0x80049d04 func obj_DrawSimpleBillboard hand fog-colour (GTE 0x980011) from depth, links precomputed prim of length 9 into OT slot
+0x80049db8 func math_RotateOffsetPair hand rotates quad half-size offsets by angle using sine table at 0x8007fba4 (cos via +0x40)
+0x80049e60 func obj_CullAndDrawFlares hand RotTransPers each queued flare, screen coverage area cull, thins draw count, calls obj_DrawAnimatedFlare
+0x80049e70 func obj_CullAndDrawFlaresTail hand entered mid-function (in_v0 register arg): flare screen-area cull and draw loop, tail of obj_CullAndDrawFlares
+0x8004a204 func spark_InitPool hand allocates 0x20 objects of 0x80 bytes, two prims each (code 0x50 grey 0x40404040), free-index stacks
+0x8004a348 func spark_AllocIndex hand pops free index from stack at gp+0x12f8, records in active list at 0x12fc, -1 if empty
+0x8004a398 func spark_FreeIndex hand pushes index back on free stack, removes from active list by moving last entry
+0x8004a3e0 func spark_Spawn hand allocates particle index, fills 0x80-byte object position, velocity, colours and lifetime from param struct
+0x8004a61c func spark_UpdateAll hand per-frame loop over active particles: ages, calls spark_StepPhysics, fades colours with GTE 0x980011, frees dead
+0x8004a7e8 func spark_StepPhysics hand adds velocity to 16.16 position, derives short screen position, adds gravity 0x8000 to Y velocity
+0x8004a86c func weather_Init hand allocates 0xca4 state per player (1 or 2), picks rain or snow prim setup by mode byte, inits each
+0x8004a988 func weather_InitPlayer hand clears 400 particle slots, sets ring pointer, box offsets and depth shift via GTE register for one player
+0x8004aa98 func weather_AllocRainPrims hand allocates 0x1900 bytes, builds 0x140 line prims (code 0x52 grey) for two OT buffers
+0x8004ab10 func weather_AllocSnowPrims hand allocates snow sprite prims (0x96 quads code 0x2e plus 200 small code 0x68) for two buffers
+0x8004ac18 func weather_UpdateAll hand per player swaps car state, updates particles, runs stub, restores state; loops two players
+0x8004acec func weather_SwapCarState hand saves or restores bike position, velocity, matrix and section index with per-player snapshot at 0x8009a50c
+0x8004af3c func weather_UpdateParticles hand moves rain points by wind, culls outside box, respawns via weather_SpawnInBox, tracks box change
+0x8004b398 func weather_SetIndoor hand stores flag at +0xca0, sets sound volume call 0x63030 to 15000 when outdoors
+0x8004b3e0 func weather_SpawnInBox hand random LCG spawns points inside box delta volume, count by volume, writes into ring buffer
+0x8004b608 func weather_BuildBoxAroundCar hand computes min and max box corners around car position +-0x400, offset by velocity
+0x8004b6ec func weather_Draw hand dispatches rain draw or snow draw depending on mode bit 0
+0x8004b748 func weather_DrawRain hand RTPS two endpoints per drop, depth to OT slot, links up to 0x9f line prims
+0x8004b958 func weather_DrawSnow hand RTPS each flake, size by distance, picks sprite or point prim, links into OT
+0x8004bbc4 func lev_DimPaletteEntry hand 16-byte entry loading globals then running the same palette dimming loop as lev_DimPalette
+0x8004bbd4 func lev_DimPalette hand scales 0x400 palette RGB bytes by per-weather factors (0x80/0x90 or 0xc0/0x60) then calls sky_ApplyTint
+0x8004bc8c func weather_IsIndoorSection hand returns 1 when bike section flag byte bit 3 set in table at PTR_DAT_8009276c, else 0
+0x8004bd00 func fx_InitStreakPrims hand allocates 0x1800 bytes, clears 8 slots, builds 0x100 semi-trans F4 prims (code 0x2a, len 5)
+0x8004bd78 func math_AverageUV hand stores average of two byte pairs (u,v) into destination, halving sum
+0x8004bdac func sky_BuildPrims hand allocates 0x1400 bytes, builds 16 subdivided FT4 quads (code 0x2c) copying UVs, clears 12 F3 prims code 0x20
+0x8004c0d4 func sky_SetCloudTable hand stores table pointer at gp+0x138c and horizon height from entry word times 5 over 16
+0x8004c100 func sky_AllocLayerBuffers hand allocates two prim arrays (0x50 bytes each), vertex arrays and OT copy pointers for two layer counts
+0x8004c1b8 func sky_BuildLayerPrims hand copies vertex shorts and UVs from level data into FT4 prims (code 0x2c, len 9) for two layers
+0x8004c418 func sky_ApplyTint hand multiplies RGB of all sky, layer and horizon prims by three factors over 256, also scales clear colour
+0x8004c5ac func math_ScaleRgb hand multiplies three colour bytes by three factors and shifts right 8
+0x8004c5f8 func sky_ProjectPoint hand RotTransPers one point, flag 2 and screen xy output when depth exceeds threshold
+0x8004c634 func sky_LinkQuad hand clips four projected corners against screen limit DAT_80092894, links len-9 prim into OT slot at +0x868
+0x8004c710 func sky_LinkFillPrimA hand links fixed prim (0x8009d388 or 0x8009d394 by buffer) into OT slot at +0x868
+0x8004c77c func sky_LinkFillPrimB hand links fixed prim (0x8009d3a0 or 0x8009d3ac by buffer) into OT slot at +0x868
+0x8004c7e8 func sky_DrawRing hand projects three 32-point rings around camera via sky_ProjectPoint, links band quads with sky_LinkQuad
+0x8004ca4c func sky_DrawFillRects hand if horizon visible, builds two screen-fill rect prims from display size and links them into OT
+0x8004cbac func sky_ClipHorizonPoly hand projects 32 ring points, clips against screen rectangle, builds convex polygon, emits triangle fan prims into OT; returns 1 if fully offscreen
+0x8004d540 func obj_IsSlotEmpty hand returns true when halfword at +0x424 (player slot) is zero; tiny predicate used by object list builder
+0x8004d54c func render_SplitObjectLists hand walks object list 0x8009d5a0, splits entries by type (&0x1ff==7) into two draw lists with matching parameters, handles player-slot fallback
+0x8004d758 func render_BuildVisibleObjectLists hand iterates object chains (ushort links *0x80), calls light/matrix setup 8004d930 and per-object draw 8004dc1c, queues type 3/7 separately
+0x8004d930 func light_SetColorMatrix hand builds 3x3 light colour matrix from three light entries (0x40-byte records at 0x8009ad60) and writes GTE control regs 16-20 (SetColorMatrix style)
+0x8004da80 func obj_BuildRotationMatrix hand builds object rotation matrix from angle shorts via GTE (43 cop2 ops), loads rotation and translation control regs
+0x8004dc1c func obj_DrawModelIfVisible hand gets view depth with 8004dc7c, if within range sets up lighting (8004e5cc) and draws model polys (8004dcc8)
+0x8004dc7c func obj_GetViewDepth hand loads object matrix then RTPS (cop2 0x180001) on model centre; returns screen depth (SZ3 reg 0xd800)
+0x8004dcc8 func obj_DrawModelPolys hand big GTE model renderer: RTPT transforms, NormalClip (0x1400006), builds POLY_FT3/FT4 (0x24/0x2c) packets, links into OT with LOD selection
+0x8004e53c func light_SmoothColour hand smooths three colour bytes toward new light colour via 8004e904 step limiter, stores result at +0x138
+0x8004e5cc func obj_SetupLighting hand computes light direction vectors per light via 8004e958, builds light matrix with GTE (47 ops), sets ambient/back colour regs from sector colour
+0x8004e904 func math_StepToward_Limit24 hand moves byte value toward target by at most 0x18 per call (returns clamped step)
+0x8004e958 func light_GetDirectionVector hand position difference to light, squared length via GTE SQR, reciprocal table lookup, normalises direction (74738) scaled by distance falloff
+0x8004eb10 func gpu_InitOTRingA hand sets ring pointer at +0x1f74 and ClearOTag x3 (0x200 entries, 0x800 stride); nothing shadow-specific in code
+0x8004eb70 func gpu_InitOTRingB hand same as A with pointer at +0x183c; generic ordering table init, nothing shadow-specific
+0x8004ebd0 func render_SetCurrentView hand stores current view pointer, flags whether it equals primary view DAT_800a9578, picks per-view data pointer (0x3d4 stride)
+0x8004ec1c func obj_CopyAnimPointToEffect hand reads frame entry (0x20 byte records at +0x68) and writes x, -y, z shorts into effect object position fields
+0x8004ec88 func shadow_LinkOTsIntoMainOT hand computes depth from distance, splices two shadow ordering tables into main OT (PTR_DAT_8009287c+0x70+z*4) by linking tags
+0x8004ee20 func shadow_AdvanceOTRing hand advances both 3-entry OT rings (+0x1f74, +0x183c) by 0x800 with wraparound and clears the new table
+0x8004ee9c func shadow_AdvanceOTRingAllPlayers hand loops over all players (count at +0x3f5) calling shadow_AdvanceOTRing
+0x8004ef10 func render_LinkPlayerOTs hand for each player with positive depth at +0x1f78 calls 80046628 with OT ring pointer +4 to submit the table
+0x8004ef9c func bike_ComputeBoneDistances hand GTE transforms per-bone vectors, computes scaled dot values into table 0x8009f3b0, sets visibility flag when above 0x493e0
+0x8004f340 func bike_BuildBoneDrawOrder hand builds list of bone indices at +0x3ac terminated with 0xface from front/back tables, using flag bytes per bone
+0x8004f518 func bike_InterpolatePoseMatrix hand interpolates between two animation frames (0x20-byte records) with 16-bit fraction, builds rotation matrices via GTE (87 ops)
+0x8004fc2c func math_RotatePolyVerts2D hand rotates 3 or 4 vertex xy pairs of a quad around pivot using fixed-point sin/cos (8002a5f4/8002a700) and 8006d688
+0x8004fdc8 func obj_IsWithinViewBox hand compares position deltas against +-0x15e window (>>16); returns -1 if inside box else 0
+0x8004fe4c func render_DrawAllBikes hand main per-frame bike/car draw: sorts players by depth, LOD buckets, builds pose, draws bones, rider, debug string
+0x80050a9c func bike_AssignBoneOTDepths hand builds bone order from +0x3ac list, computes per-bone OT depth entries (clamped 1..0x1fe) using screen depth and bone offsets
+0x80050e48 func bike_PrepareAndDrawBones hand picks poly buffer by view, saves GTE matrices, sets lighting (8004e5cc), assigns bone depths and draws bones (800512c8)
+0x80050fa4 func obj_ComputeScreenDepth hand memset small struct, optional position scale, GTE matrix mult and RTPS (60 ops); returns OT depth, saves matrices
+0x800512c8 func bike_DrawBoneList hand iterates bone list at +0x3ac until 0xface calling bone poly drawers 800517f0 and 80051e0c, rotates quads with 8004fc2c
+0x800517f0 func bike_DrawBonePolys hand GTE bone polygon renderer (16 ops) walking model nodes by +0x30 stride, builds textured polys into OT
+0x80051e0c func bike_DrawBonePolysAlt hand variant bone renderer using per-part table at +0x6c*0x188 stride and GTE (24 ops), builds polys into OT
+0x80052420 func render_PrepareFramePlayers hand resets per-player flags (+0x3a8, +0x1f78), computes camera distance with RTPS, calls 8005dcdc and 80041a90
+0x800525dc func bike_ComputeFacingScale hand dot product of two vectors via 8002ba10, stores result >>6 in per-player table at 0x80092748
+0x80052660 func sys_InitSubsystems hand calls gpu_InitSystem, cd_InitWrapper, mem_InitHeap, gfx_InitDefaultDisplay: these are inits, not teardown
+0x800526a8 func mem_InitScratchPool hand allocates (n+0x2b67)*0x20 bytes via 80020b40 and stores 128-byte aligned base, resets used offset
+0x800526e8 func mem_AllocScratch128 hand bump-allocates from scratch pool rounding size up to 128 bytes; returns pointer
+0x80052714 func obj_InitHeader hand zeroes shorts at +4,+6,+8 and word +0xc, stores first param at +0
+0x8005272c func bike_InitDrawState hand fills 99 words with 0xffffffff, calls 80052714, clears fields at +0x128.. and 9 halfwords
+0x800527ac func bike_InitFromModelHeader hand allocs 128-byte block, inits draw state, copies LOD pointers and counts from model header fields (+0x10,+0x14,+0x1c,+0x1e,+0x44)
+0x800528e4 func gpu_InitDisplayListBuffers hand clears four buffers 0x8009f6f8/88c/a20/bb4 and stores their pointers in globals
+0x8005292c func render_DrawFrame hand per-frame top-level renderer: sets view, lights, object lists, bikes (8004fe4c), world sections (52b5c, 53570), particles (5709c)
+0x80052b5c func lev_BuildSectionLists hand swaps double-buffered section lists by display buffer, then visibility walk 52c44, 53114, 46d20, 47188
+0x80052c44 func lev_WalkVisibleSections hand walks packed section records from table DAT_800a96f4 and calls 80052d4c per entry to collect draw spans
+0x80052d4c func lev_AddSectionSpan hand binary-search style insertion of map section span into sorted list using section table entries of 0x1c bytes
+0x80053018 func lev_IsBoxVisible hand GTE RTPS on bounding box corners (9 ops), returns visibility via clip flags against screen bounds
+0x80053114 func lev_BuildSectionDrawList hand converts visible span list into draw entries using map arrays DAT_800a96ec/92788, per-section flags
+0x80053570 func lev_DrawSections hand sets poly buffer pointers by view, loops visible sections and calls 800536c4 per section with neighbour-continuity flags
+0x800536c4 func lev_DrawSectionPolys hand big GTE map section renderer (40 ops): RTPT, NormalClip, builds textured polys from BSP vertex arrays, links to OT
+0x80054404 func math_QuatToMatrix hand converts quaternion (GTE squares and cross products, 25 ops) to 3x3 short rotation matrix using 1-2(y2+z2) forms
+0x80054568 func idx_LoadFileTable hand reads IDX\IDXFILES.IMG (0x1c2 entries) then upper-cases lowercase letters in each name string
+0x80054604 func lev_GetMapSectionRange hand returns pair of values from map header (+0x1440) by selector 0..3 (offsets 0x1c-0x38)
+0x800546c8 func lev_PrintAnimModels hand prints a debug string from map header +0x1c
+0x800546f4 func idx_GetFileSize hand calls 8006f1b4 for file index and returns field at +8
+0x8005471c func vram_UploadFileImages hand clears VRAM rect, loads file by id (8006f1c8) and uploads two images via LoadImage style 80070258 with DrawSync, frees buffer
+0x80054810 func game_SwitchToSecondaries hand stops SPU, pad and callbacks (debug strings), prints SWITCHING FROM GAME TO SECONDARIES, jumps to code pointer
+0x800548cc func lev_LoadTrack hand big loader: loads map file, uploads VRAM images, sets up anims/AnimModels, car colour, cockpit, pins and bike models (debug strings)
+0x80055b60 func lev_FindLoadedModel hand searches loaded model table (0x244-byte entries, 0x8009fd5c) for id; returns index and sets flag param to 0 when found
+0x80055bcc func lev_FindLoadedBikeModel hand looks up model id from bike table (+0x808cc) with colour offset; debug message when colour 5
+0x80055c50 func lev_GetLoadedModelData hand searches loaded model table for id and returns pointer to entry data at 0x8009fd64
+0x80055ca8 func lev_RegisterLoadedModel hand adds entry to loaded-model table (max 4, error message with source line), copies model block
+0x80055e2c func lev_LoadLogoPin hand loads logo pin file 0x1c0, checks magic PIN 0x50494e02, uploads cluts via LoadImage; debug messages on bad or missing file
+0x800560ec func lev_LoadPinModel hand loads bike pin file by id, checks PIN magic, copies model data (memcpy) and registers it; messages static: Loading Pin
+0x800564a8 func bike_GetLoadedRiderSkinSlot hand finds slot (5 entries) matching skin/helmet pair; prints error and returns -1 if not loaded
+0x80056518 func bike_SetLoadedRiderSkinSlot hand validates slot<5, skinId<10, helmet; stores pair in slot table or prints SetLoadedRiderSkinOffsetIndex errors
+0x800565d4 func bike_LoadRiderSkinPin hand loads rider skin pin (CHECK loading pin skin), uploads clut, optional override helmet blit with LoadImage
+0x800567fc func model_FixupPrimTemplates hand one-shot (flag 0xf1 in header) pass over model parts and prim templates: scales shorts, sets poly code 0x2c, biases colour bytes by -0x80
+0x80056934 func model_RelocateHeader hand checks magic MOD 0x4d4f4401 or MOC 0x4d4f4301, converts header offsets to pointers (+0x18,+0xc,+0x44,+0x48)
+0x80056ad0 func bike_BuildUpgradedBikeBsp hand finds loaded bike model for bike/player/colour, prints debug messages for lookup result and bad colour
+0x80056d10 func data_DecompressLZ hand LZ-style bit-flag decompressor: 32-bit flag words, literal bytes or back-reference copies, from buffer+0x10+offset
+0x8005702c func sys_CallFunctionPtr hand tail-calls function pointer passed as argument
+0x80057058 func fx_InitDecalBuffers hand allocs 0x4510 bytes (two halves at +0x2288) and 0x1e0 bytes, then inits particle buffers via 800577d8
+0x8005709c func fx_DrawDecalList hand iterates 12-byte decal entries, extracts flags and size fields, calls 800571b8 to draw each quad
+0x800571b8 func fx_DrawSubdividedQuad hand GTE-projects 4 corners plus edge midpoints, emits 4 POLY_GT4 (0x34 bytes) sub-quads, recurses once for near-plane splitting
+0x800577d8 func fx_InitParticleBuffers hand allocs 0x1e0 and 0x3b60 byte buffers (two halves 0x1db0), sets list pointers
+0x80057820 func fx_FlushParticleLists hand picks buffer by view, walks 12-byte entries, loads matrix via 8004da80 and draws each with 800578fc
+0x800578fc func fx_DrawSubdividedPoly hand same midpoint-subdivision with 3 or 4 vertex tables, emits POLY_GT3 (0x28 bytes) pieces; not particle-specific
+0x80057ed8 func fx_InitParticleSystem hand clears counters, calls pool init 80057f04, clears another counter
+0x80057f04 func fx_InitParticlePool hand allocs 0x2000 bytes: 64 particle records of 0x80 bytes, presets fields (9, 0x2e) via 80052714, sets ring pointers
+0x8005809c func fx_AllocParticle hand returns next particle slot from ring (0x80 stride), releasing old one via 8003e45c if in use, wraps at pool end
+0x80058104 func fx_FreeParticle hand clears active flag at +0x6c and calls 8003e45c
+0x80058124 func fx_SpawnParticle_stub hand thin wrapper calling 80058144
+0x80058144 func fx_SpawnSparkParticle hand allocs particle, type 8, sets position from emitter plus velocity components (*3/4 plus random-free offsets)
+0x80058330 func fx_UpdateParticles_stub hand thin wrapper calling particle update 80058894
+0x80058350 func gpu_LinkPendingPrimToOT hand if pending prim pair set, splices prim chain into main OT head (PTR_DAT_8009287c+0x74) and clears pending
+0x800583fc func fx_SetParticleFadeColour hand packs colour from age value (x4 clamp 0xff) into word +0x70 as r,g,b
+0x8005842c func fx_UpdateParticleType8 hand integrates position by velocity, applies gravity -0x80 and 7/8 drag, updates colour fade, advances +0x6d
+0x80058510 func fx_UpdateParticleFall_wrapper hand calls 8005854c with mode 0 then applies upward velocity -0x80
+0x8005854c func fx_UpdateParticleDecay hand integrates position, damps velocity by 1/8, fades colour bytes by step 8 or 0x10 depending on flag
+0x80058644 func fx_UpdateParticleSwirl hand rotates velocity with table sin/cos picked by LCG random (16807 multiplier), jitters vertical velocity, fades colour
+0x800587e0 func fx_UpdateParticleGravity hand integrates position, adds +0xb4 gravity to y velocity, fades colour after age 0x3c
+0x80058894 func fx_UpdateParticles hand loops active particles in pool and dispatches update by type (8,1,4,0x10,0x4000) to 8005842c/80058510/80058644/etc, frees expired
+0x80058a6c func fx_GetParticleMaxLife hand returns clamped life/brightness limit by particle type (8: 0x60, 1/4: 0x40 etc)
+0x80058b64 func fx_InitParticleVelocity hand sets up initial velocity/position offset by particle type (1, 0x10, 0x4000) from age
+0x80058ce8 func fx_BumpParticleBrightness hand raises brightness byte at +0x6d by 0x20 (type 1) or 4 (type 4) when threshold exceeded and below 0x80
+0x80058d64 func fx_ClearEffectSlotTable hand clears halfword at +6 in 0x41 eight-byte entries from 0x8009a0a4
+0x80058d8c func obj_InitEffectSlots hand copies 9 slot words from model (+0x2e) to object (+0x178), for type 2 spawns attachment via 80058e44
+0x80058e44 func obj_SpawnEffectAttachment hand finds model node entry, computes position (800594f0), spawns effect object via 800490e4, stores handle in slot, flags it
+0x80058f64 func obj_UpdateAllEffectObjects hand loops list at 0x80096f3c (count DAT_800913d8) calling 800590fc then clears count
+0x80058fd0 func fx_RemoveDuplicateListEntries hand when enabled, removes entries in list at 0x8009d5f0 that duplicate earlier ones, swapping in last element
+0x800590fc func obj_UpdateEffectSlots hand per object: for 9 slots transforms node positions with GTE (20 ops), switch on slot type (1,2,..) updating decal or effect object
+0x80059358 func obj_FreeEffectSlots hand per object: loops 9 slots, switch on type (2,3,4,7) calling release funcs 80059590/8005961c/800596b8 or GTE-based cleanup
+0x800594f0 func gte_RotateVecByObjMatrix hand loads rotation matrix and translation from object +0xd0..0xe0 into GTE, MVMVA rotates vector, stores 3 shorts
+0x80059590 func car_UpdateSlotFlagsFromTable hand loops 9 ushort flag slots at +0x178, copies table DAT_8009adac entry shifted into record field +0x68
+0x800595a8 func car_UpdateSlotFlagsFromTable_Tail hand split tail of previous function, same loop with record pointer in v1
+0x8005961c func fx_SpawnSparkEveryThirdCall hand counter at +6 reaches 3 then spawns particle type 0x1b via fx_SpawnRandomParticle
+0x800596b8 func fx_SpawnDustParticle hand spawns particle type 0x1c with fixed params via FUN_8005972c, sets +0x6d/+0x6e fields
+0x8005972c func fx_SpawnRandomParticle hand allocates particle from pool (FUN_8005809c), LCG rand 0x41a7 jitters position, sets colour from 3-byte param
+0x800598c8 func anim_GetCurrentFramePos hand returns current animation position: base +0x18 minus keyframe ushort*0x10000, indexed by +0x2e stride 0x28
+0x80059900 func anim_SetKeyframe hand sets current keyframe index +0x2e, frame span +0x2f and position from keyframe table (stride 0x28), ORs flags
+0x800599d4 func anim_AdvanceByTime hand advances 16.16 animation position by param times +0x20 speed, handles forward/reverse, loop or clamp flags 0x20/0x40
+0x80059ae0 func model_DrawInterpolatedMeshGT hand huge GTE routine: interpolates morph frames, RotTransPers verts, builds POLY_GT3/GT4 (0x34/0x3c) into OT with depth sort
+0x8005a7bc func math_QuatToMatrix_2 hand 12-byte entry falls into body at 8005a7c8; decompile shows whole quaternion-to-matrix GTE routine
+0x8005a7c8 func math_QuatToMatrix_Tail hand body of quaternion-to-matrix routine entered by fall-through from 8005a7bc
+0x8005a918 func gte_SetupObjectMatrices hand composes object and parent rotation matrices via GTE MVMVA, loads rotation/translation registers; scale >>5 option
+0x8005ae64 func model_DrawObject hand sets globals, optionally calls FUN_8004fdc8, sets up matrices (8005a918) then draws mesh via 80059ae0 updating OT pointer
+0x8005af1c func bsp_AllocModelInstance hand allocates 0x2c bytes via FUN_80020b40, biosA0_memset zero, stores two params at +4,+8
+0x8005af7c func bsp_LoadModel hand sprintf a debug string debug, loads file entry, memcpy to buffer, fixes internal section pointers (+8,+4,+0x14,+0x1c)
+0x8005b06c func bsp_RelocateHeaderPointers hand walks nested count tables (0xa/0x8 strides) converting relative sub-array offsets to pointers
+0x8005b148 func bsp_LoadRiderModel hand clamps index to 1, loads file entry index+2, biosA0_memcpy, relocates pointers with 8005b06c
+0x8005b1cc func math_FixedDot3 hand 16.16 fixed-point dot product of two int vectors (64-bit multiplies >>16)
+0x8005b23c func rider_Attach hand attaches rider object to bike: clears flag, copies matrix block 0x38..0x118, sets pose, GetHeading via 800748e8, calls 80023cb0/800429f8
+0x8005b4a8 func rider_Detach hand sets bike flag |2, zeroes rider rotation, calls FUN_8004ec1c, 80023ec0, 8003e3b4 to release rider object
+0x8005b5a0 func rider_SyncPositionFromObject hand copies object position +0x38..0x40 into rider animation record +0x18..0x20
+0x8005b5e8 func rider_Callback hand string a debug string; finds rider slot among 5 (stride 0x1844) and clears it
+0x8005b6d0 func rider_Create hand string a debug string; allocates rider slot (max 5), object 0x18c, sets callback 8005b5e8, flags bike |2
+0x8005b818 func rider_SetVelocityVec hand stores 3 ints at +0xc..0x14 clamping first magnitude to 0x100000
+0x8005b880 func rider_GetVelocityVec hand copies 3 ints from +0xc..0x14 to output
+0x8005b8a4 func rider_UpdateControls hand copies rider input bytes, gear shift decision, calls 8005b990/8005bba8 and stub_8005bc8c
+0x8005b958 func rider_CopyInputByte24 hand copies bike byte +0x615 into rider +0x24
+0x8005b96c func rider_CopyInputBytes25_26 hand copies bike bytes +0x616,+0x617 into rider +0x25,+0x26
+0x8005b990 func car_AutoShiftGear hand compares engine rpm (+0x39c) against thresholds from +0x440, calls FUN_8002ac84 with +1/-1 to change gear
+0x8005bba8 func rider_UpdateLean hand reads steering byte +0x528, derives lean vector, stores via 8005b818, clears +0x28
+0x8005bc94 func car_GetForwardSpeedAlongSurface hand dot product (8005b1cc) of velocity +0x4a4 with vector +0x32c when flag set, else 0
+0x8005bd00 func rider_UpdateBlendFromSpeed hand maps speed +0x4d8 to 0..0xfff range between thresholds (0x50/0x8c/0x96/200) and sets animation blend
+0x8005be0c func anim_GetKeyframeScaledOffset hand scales keyframe length (ushort at +4, stride 0x28, minus 1.0) by fixed param_3 (16.16)
+0x8005be68 func rider_UpdateAnimation hand picks rider animation state (7,8,0,4,5,0xb,0xe,0x10,0x13) from speed/lean/crash flags, sets frame via 8005ca20/ca68/ca70
+0x8005c4a4 func anim_RegisterObject hand string a debug string; stores in table DAT_800a1a7c max 12
+0x8005c500 func anim_ClearObjectTable hand zeroes 12 entries of DAT_800a1a7c and resets count
+0x8005c53c func rider_InitAnimSets hand clears anim table, loads two anim sets (8005af7c) and two rider models (8005b148), registers per-player models 800565d4
+0x8005c628 func rider_SetupAnims hand strings a debug string, a debug string; picks anim set and calls anim_InitialiseAnimations
+0x8005c74c func anim_InitialiseAnimations hand allocs 0x18 header and 0x2c/0x58 records, memset; strings a debug string; sub-anim flag array
+0x8005ca20 func anim_SetRequestedAnimation hand string a debug string (>0x14); stores anim index at +0xc
+0x8005ca68 func anim_SetRequestedPosition hand stores word at +0x10 (target position in animation)
+0x8005ca70 func anim_SetRequestedFlags hand stores halfword at +0x14
+0x8005ca78 func anim_UpdateAll hand loops registered animating objects (table DAT_800a1a7c), state machine blending between anims via tables 8008844c/8008853c, calls anim_AdvanceByTime
+0x8005d200 func gpu_InitSystem hand calls FUN_8006fddc(3) ResetGraph-style, FUN_8006ff50(0) SetGraphDebug-style, FUN_80075f38 gte init
+0x8005d230 func gfx_InitViewRotation hand zeroes three halfwords at gp+0x152c, copies matrix to DAT_800a2c48 and sets scale constants 0x3666/0x2000
+0x8005d290 func gfx_SetupDisplayEnv hand flags: interlace/PAL, resolution 0x100/0x140/0x200 x 0xf0/0x100; sets DRAWENV/DISPENV pairs 800a1b08/800a2378, calls 8005de20
+0x8005d594 func gfx_SetupSplitScreenViewport hand switch on split mode byte +0x3fc (0 full,1/2 halves,3/4 quarters); sets draw area sizes and clear colours
+0x8005d820 func gfx_InitDefaultDisplay hand gfx_SetupDisplayEnv(0x47) then FUN_800703e0 init two ordering tables of 0x200
+0x8005d868 func gfx_BeginFrameBuffers hand PutDispEnv/PutDrawEnv style calls on current buffer, selects OT pair, inits OTs 0x200, sets frame flag DAT_80088c10
+0x8005d940 func gfx_SubmitFrameSplitAware hand adjusts draw offsets for split mode 1 vs others, DrawOTag, flips buffer index ^1 at gp+0x1524
+0x8005dabc func gfx_SwapDisplayBuffers hand PutDrawEnv/DrawOTag on current buffer, toggles between 800a1b08 and 800a2378 buffer sets, clears OTs
+0x8005db60 func gfx_SetViewOffsetNegated hand stores negated 3 vector (16.16 and >>16) into DAT_800a2c08/0c/10 and 2c38..2c40
+0x8005dbd4 func math_CopyMatrix5Words hand copies 5 words (3x3 short matrix) into DAT_800a2be8
+0x8005dc04 func gfx_UpdateViewMatrix hand calls 8005dc44 and 8005dcdc to rebuild and load view matrix
+0x8005dc44 func gfx_BuildViewMatrix hand copies matrix words, zeroes translation words, combines with 800a2c48 and param rotation (80074ff4/80075fd0)
+0x8005dcdc func gte_LoadViewMatrix hand calls FUN_80076160 and FUN_80076030(matrix) to set GTE rotation/translation
+0x8005dd0c func gfx_SetupFovTables hand copies 9-entry table from rodata, computes DAT_8009f544/548/550/554 from projection distance (0xd600/h, h<<8/0xd6)
+0x8005de20 func gfx_SetGeomScreen hand stores projection distance in DAT_800a2c72, SetGeomScreen via FUN_80075fc0, then updates fov tables
+0x8005de64 func gfx_SetDrawAreaFullOrSplit hand picks draw environment area (full screen or custom RECT built from DAT_800a2c6a/6c), calls PutDrawEnv-like 80070724
+0x8005df30 func gfx_DrawSplitScreenDivider hand builds RECT for thin 2-pixel divider (horizontal or vertical by split mode), calls FUN_800701c8 clear
+0x8005dfc8 func vsync_FlipCallback_2 hand decompile is the whole callback: counts frames, swaps display buffers or begins frame buffers
+0x8005dfd0 func vsync_FlipCallback hand vsync callback: increments frame counter gp+0x1550, if flip pending and counter >= DAT_80092964 swaps buffers via 8005dabc or 8005d868
+0x8005e094 func vsync_GetFrameCounter hand returns frame counter at gp+0x1550
+0x8005e0a0 func vsync_Init hand saves state, FUN_80075214 install VSyncCallback(8005dfc8), zero counter and flip flag, FUN_80072c50
+0x8005e0f4 func vsync_ResetCounter hand FUN_80072e90, zero frame counter gp+0x1550, FUN_80072c50
+0x8005e120 func time_GetScaledFrameTime hand returns (DAT_80092958 << 11) / 3 frame time conversion
+0x8005e144 func pad_InitControllers hand memset two 0x19 byte pad buffers, PadInit-style SIO calls 80076190, sets connected flags gp+0x1554/0x1558
+0x8005e274 func pad_ResetControllerSystem hand clears 0x40 words, copies default button map; string a debug string
+0x8005e438 func pad_ValidateControllerType hand returns pad record if id != 0xff and type byte is 0x41 digital, 0x23 or has bit 0x10 set
+0x8005e480 func pad_SetupAllPlayers hand per player: reset controller, detect pad type, poll SIO pad status (8007581c) and set up vibration buffers 80088f40/5c
+0x8005e73c func pad_SetupPlayerController hand per-player controller re-detect and vibration setup, updates cached pad pointer table DAT_80088f98
+0x8005e9bc func math_SignExtend16 hand returns short param sign-extended to int
+0x8005e9c8 func pad_QueueVibrationEffect hand sets vibration slot fields +0x10,+0x16..+0x19 only if priority byte param_6 >= current
+0x8005ea38 func pad_ClearVibrationBuffers hand zeroes first two bytes of both vibration buffers DAT_80088f40 and DAT_80088f5c
+0x8005ea5c func pad_StepVibrationSlot hand outputs motor bytes from slot (+0x10 strength decays by +0x17, +0x16 small motor countdown)
+0x8005ead4 func pad_PollPlayerInput hand per-frame controller read: pad type 'S'/'A'/'#', rumble update via SIO calls, button edge masks +0x530/+0x532, calls button mapper
+0x8005efe8 func button_GetTransferStep hand string a debug string; finds LUT step index 0..0x1f for analogue ramp
+0x8005f160 func button_HandleStateChange hand strings a debug string; ramps analogue value up/down via LUT
+0x8005f284 func button_DoButtonFunction hand strings a debug string; applies press/release to 0..0xff analogue value with LUT ramp types
+0x8005f588 func pad_MapButtonsAndSticks hand builds 16-bit button mask via mapping table 80088e88, converts analogue stick bytes (0x69..0x97 deadzone) to virtual buttons/analog values
+0x8005f958 func pad_FindButtonMaskForFunction hand returns bit mask of first of 16 button slots (+0x8c) mapped to given function id, else 0
+0x8005f9a4 func pad_IsFunctionOnAnalogSlot hand checks slots 0x10..0x17 whether mapped record equals given function pointer
+0x8005f9f4 func pad_ApplyButtonMaskToFunctions hand for slots 1..13 calls button_DoButtonFunction with pressed bit from mask
+0x8005faf4 func pad_ProcessPlayerButtons hand runs mapping + application then derives steering axes +0/+1 from opposing keys (0xf2..0xf5) and copies throttle/brake bytes
+0x8005fc48 func car_ReadControlsFromPad hand copies pad bytes +0x528/+0x52a/+0x529 to car steering +0x384/+0x385/+0x388, thresholds brake/throttle, calls 8005fcfc
+0x8005fcfc func car_SetSteerReturnRate hand when player index >3 and flag +0xf7 set, stores -0x10000 / max(5, +0x4d6) into car +0x390
+0x8005fd80 func pad_ClearBuffer9Words hand zeroes 9 words at param
+0x8005fda0 func pad_GetAllButtonsHeld hand ORs inverted button words of both pads (incl. multitap slots when id 0x80) into one 16-bit mask
+0x8005fe84 func replay_InitRecorder hand picks replay slot (state 9 free), sets buffers; mode 1 = record init, mode 4 = playback init with checksum 80060bc8
+0x80060088 func replay_ProcessFrame hand state machine 2/3/5/6/7/8: run-length compresses pad button stream while recording, decodes it back while playing
+0x800609e4 func replay_StopRecording hand if replay state at +0x2184 is 2 sets 3, if 5 sets 6
+0x80060a18 func replay_EndPlayback hand if replay state is 5 sets it to 6
+0x80060a3c func replay_StartPlayback hand if state 0: resets stream pointers and counters, computes checksum, sets state 5
+0x80060b10 func replay_SwapBuffers hand swaps replay buffer pointers at +0x4d0 between two cars
+0x80060b24 func replay_StartRecording hand resets stream pointer/counters, sets capacity 0xd9c and state 8
+0x80060bc8 func replay_ComputeChecksum hand 6-pass byte checksum over replay data (seed 0x71, xor 0x2524), stores or verifies at +6, bad marks -0x133
+0x80060cac func replay_CopyState hand copies large replay record (0x84c words) and sub-buffer from source to destination slot, swapping pointers
+0x80060f88 func car_CopyPhysicsState hand copies car record blocks 0x38-0x118 plus scalar fields and small arrays from source car to destination
+0x800610d4 func pad_CopyRecord hand copies pad record fields (+0x1c block 0xd0 bytes, +0xec 14 bytes) between two records
+0x800611fc func replay_RestoreCarFromSnapshot hand restores full car state, rider and bsp animation data from snapshot; calls car_CopyPhysicsState, pad_CopyRecord, resets GTE-using setup
+0x80061ed0 func ghost_InitLapRecorder hand if no ghost yet allocates two car copies and slot records, starts replay in player 0 via replay_InitRecorder
+0x800620cc func ghost_UpdateLapTimers hand per-frame in mode 10 advances ghost timers, ends playback or swaps buffers when lap finishes
+0x80062274 func ghost_EndOfLapSwap hand on lap end stops recordings, swaps better lap into ghost slot, restarts playback; debug string
+0x80062408 func lev_GetSurfaceTypeAtPos hand looks up BSP face at position, returns 7-bit surface type from face table at DAT_800a9768
+0x8006245c func spu_SetCdVolume hand sets four 0x7f bytes, applies via 80074510, writes two 8-bit volumes into spu attr struct (flag 0x300), commits via 80077750
+0x800624d8 func cdda_Start hand memset 8 bytes, CdControl-style command 2 (setloc) with track param, sets cdda state 1
+0x80062530 func cdda_Stop hand if cdda state nonzero issues command 8 (CdlStop) and clears state
+0x80062564 func cdda_SetPaused hand param 0 resumes (cmd 3 play, state 1 from 2), param 1 pauses (cmd 9, state 2 from 1)
+0x800625d8 func snd_InitRequest7 hand fills small request struct with type 7 and 16-bit parameter, zeroes remaining fields
+0x800625fc func snd_ResetCommonAttr hand clears SPU common-attr struct, volumes 0x3fff, then commits via 80077750
+0x80062650 func sfx_InitListenerSlot hand clears 0x58-byte slot, links car pointer and position/matrix pointers (+0x38,+0x6c,+0xd0), updates slot
+0x8006270c func sfx_Init hand sound init: SPU/CD setup, optional XA channel, memset voice table, 24 voices attr defaults, clears listeners, sets params
+0x800628a8 func sfx_StopAll hand stops cdda and keys off all 24 voices
+0x800628f4 func sfx_SetMasterVolume hand stores 16-bit master volume at gp+0xec4 and refreshes voices via 800630e4
+0x80062918 func snd_ShutdownSpu hand SpuSetReverb(0), SpuReserveReverbWorkArea(0), SpuQuit: SPU not CD shutdown
+0x80062958 func snd_QueryCdStatus hand param 0 returns 80078280(0) status, param 1 returns 0 or -8 on failure
+0x800629b4 func sfx_SetAttenuationParams hand stores channel mask, near and far distance values (0x400,0x2800) in globals
+0x800629cc func spu_SetMainVolume hand writes volume words in common-attr struct (flag 0xc0) and commits via 80077750
+0x80062a00 func spu_SetMainVolumeSaved hand same as 800629cc and also saves left volume into game state +0xda8
+0x80062a4c func sfx_SetMasterVolumeSaved hand stores master volume at gp+0xec4 and game state +0xda6
+0x80062a60 func sfx_LoadBank hand loads sound bank file by id, uploads samples to SPU, builds sample table with pitch values (<<12 / 0xac44)
+0x80062b84 func spu_UploadData hand allocates SPU memory, transfers data and waits; returns 0 on success, -1 on failure
+0x80062c34 func sfx_PlayVoice hand finds free of 24 voices, checks listener distance < 0x100000, fills voice record, marks start request 0x40
+0x80062e50 func sfx_AllocFreeVoice hand finds voice not busy (state 9), clears fields, key off bit; returns index or 0x7f
+0x80062edc func sfx_StopVoice hand validates voice handle serial, zeroes volume, marks release request 0x41
+0x80062f5c func sfx_GetSamplePitch hand returns 16-bit pitch from sample table for index < 0x80 else 0
+0x80062f90 func sfx_GetVoiceSample hand if handle valid and voice state 1 returns sample id byte else 0xff
+0x80062fd4 func sfx_SetVoicePitch hand clamps pitch to 0..0x3fff and stores in voice record if handle valid
+0x80063030 func sfx_SetVoiceVolume hand stores left and right volume in voice record if handle valid
+0x80063068 func math_Distance3D hand approximates 3D distance via sqrt of sum of squares of coord differences shifted by 17
+0x800630e4 func sfx_UpdateVoices hand per-frame voice manager: starts/stops 24 SPU voices, 3D pan/volume from listener positions and Doppler, fades master volume
+0x800639a8 func sfx_SetListenerOverride hand sets listener slot override flag with optional position and velocity vectors copied into slot
+0x80063a40 func sfx_ClearListenerOverride hand clears listener override flag for slot
+0x80063a6c func sfx_InitListeners hand initialises listener slot 0 for player car and slot 1 when two-player flag set
+0x80063ac8 func sfx_InitRaceSounds hand clears per-car sound state, 0x7f voice handles, picks engine curves, looks up sample pitches for 13 sounds
+0x80063c1c func sfx_SetupEngineCurves hand switch on bike class sets rpm threshold constants and builds three pitch/volume curve tables
+0x80064000 func sfx_StopCarVoices hand plays one-shot sound for player car, triggers rumble 0x46, stops its four engine voices
+0x8006410c func math_InterpCurve hand piecewise-linear lookup in table of (x,y) point pairs, clamped at both ends
+0x80064228 func stub_80064228 hand returns third argument unchanged
+0x80064244 func sfx_UpdateEngineSounds hand picks up to four engine/gear sounds from rpm vs thresholds, sets pitch and volume via curves per voice
+0x80064688 func sfx_UpdateCar hand per-car sound update calling engine, impact and surface sound functions
+0x800646d4 func sfx_UpdateSurfaceSounds hand chooses tyre/surface loop by surface type and speed, sets pitch/volume, triggers rumble on player pad
+0x80064a24 func sfx_UpdateImpactSounds hand from car impact strength +0x4de and type +0x4df plays crash/scrape sounds, scales volume by speed, adds rumble
+0x80064c7c func race_InitRacerState hand resets racer slot (place, lap, checkpoints -1, car +0x4dd), sets default values from level data
+0x80064d90 func race_UpdateRankings hand sorts racers by progress (lap<<16 + distance), assigns race position byte; lap-race mode calls 80068768
+0x80064da0 func race_UpdateRankings_entry hand tail-entry duplicate of race_UpdateRankings using register-passed globals
+0x80064f68 func race_AdvanceCarCheckpoint hand advances per-car lap/checkpoint counters in game state PTR_DAT_80091440, calls lap record and finish checks
+0x80065140 func race_CheckCarFinishedAll hand when car passes final lap checks all cars finished, sets race state 6 to 4, calls race_FinishCar
+0x80065278 func race_RecordLapTime hand stores current lap time into best/last slots, calls FUN_8005e120 and FUN_8006ba58
+0x800652fc func math_PointBehindTrackPlane hand dot product of point delta with track segment plane normal (0x14 stride); returns 1 or -1 by sign
+0x800653bc func race_UpdateCarTrackSegment hand large per-car track segment tracking: plane distances, wrong-way check, segment index advance, lap wrap
+0x80065aec func stub_80065aec hand tiny stub returns 0
+0x80065af4 func race_StartCarLapEvent hand on matching lap counter stores lap time, sets event code 'O', calls FUN_8006ba58
+0x80065b84 func race_FinishCar hand marks car finished flag; sets race state 7/8 when param null and flushes display twice
+0x80065cac func race_BuildResultsTable hand after race end copies per-car positions and formats lap times via FUN_8006cb00 into results table
+0x80065e9c func map_BikeToMapXY hand converts car world position (+0x3a,+0x42) to minimap coordinates via map_WorldToMapXY
+0x80065eec func map_WorldToMapXY hand fixed point scales world x,z to minimap screen x,y using DAT_800a3da4..db0 scale
+0x80065f9c func map_WaypointToMapXY hand looks up waypoint by index*16 and converts to minimap coordinates
+0x80066048 func map_SetNibblePixel hand writes 4-bit texel into 16-bit word array with bounds check, 4 pixels per halfword
+0x80066154 func map_DrawLine hand Bresenham line into 4-bit racemap texture buffer using map_SetNibblePixel
+0x800663a8 func map_ComputeBoundsAndScale hand scans track waypoints for min/max x,z, nearest to start/end, sets map scale DAT_800a3da4..db0
+0x80066694 func map_FindPaletteColours hand reads racemap CLUT via StoreImage-like call, finds red white black grey indices, string error if missing
+0x800669ac func map_DrawTrackOutlineFull hand draws whole waypoint loop thick in colour with white edge into map buffer, for state 6 mode 2
+0x80066d40 func map_DrawTrackOutline hand draws track waypoints into map buffer: thick road colour, white centre line, start marker
+0x8006755c func map_BuildRaceMapTexture hand allocates buffer, clears to background, draws track outline, uploads to VRAM; a debug string
+0x80067718 func gpu_InitSkidPrimPool hand allocates 0x48a8 bytes, inits 150 entries of 2 quads with code 0x3e and 0xa0a0a0a0 colours
+0x8006781c func car_UpdateWheelContactEffect hand per-wheel contact: computes world pos and velocity, calls FUN_80058144/80058124 spawning skid or spark effect
+0x80067a94 func skid_BeginMarkSegment hand takes next entry from skid pool (0x7c stride), stores start/end endpoints, links to wheel via +0x84
+0x80067b58 func skid_ComputeWheelEndpoint hand computes wheel contact point from car pos, velocity and matrix; stores packed offsets at +0x70..0x80, sets valid bit
+0x80067d3c func skid_IsMarkContinuous hand tests if new wheel endpoint is within 160 units and direction change under 60000; returns bool
+0x80067e5c func skid_TryExtendMark hand if previous and new segment short and aligned by dot product, extends mark by linking segments
+0x80067fc0 func math_SmallVecLength hand length of short xyz vector clamped to 0x30 when large, uses FUN_80074858 (sqrt)
+0x80068088 func gpu_DrawSkidMarks hand GTE RotTransPers of 150 skid quads, culls, depth sorts into OT with code 0x3e semitrans polys
+0x80068334 func cone_RepositionAll hand re-sets position, matrix and mesh of all placed traffic cones from saved table (DAT_800a3dcc)
+0x80068438 func cone_Add hand creates cone object from model table, saves its position and rotation; a debug string when 100 reached
+0x80068638 func cone_HitCallback hand object callback: when hit, spawns effect 0xf, applies speed penalty to player, resets hit timer
+0x80068768 func race_UpdateWaypointEvents hand finds nearest waypoint of type 1 to player and updates lap/position counters on event types 0xe/0x10
+0x80068b20 func race_FormatTotalTimeString hand copies a debug string template and writes BCD time digits, then copies RACE RESULTS title via biosA0_strcpy
+0x80068c38 func race_SetCheckpointModeEntry hand tiny entry (24 bytes) falling into race_CountCheckpointsForMode body; only in race state 6
+0x80068c50 func race_CountCheckpointsForMode hand picks race mode 1/2/3 from waypoint count and counts type-1 waypoints doubling to checkpoint total
+0x80068d7c func race_UpdateFailureReasons hand per-car sets fail/finish reason code at +0x1f8c from timers, damage and event types (0xe,0xf,0x10)
+0x80068f7c func race_CheckEndConditions hand per car decides race end (laps, time limit) and calls race_FinishCar and race_ComputeFinishResult
+0x800691b0 func race_ComputeFinishResult hand compares total time to medal thresholds table, sets result code and formatted time via FUN_8006cb00
+0x800691c0 func race_ComputeFinishResultTail hand duplicate tail of race_ComputeFinishResult, medal threshold compare and time format
+0x800692cc func race_InitTimeTrialState hand sets race state 6, one player, loads laps, time target and bike table entries from mode table at 0x800895fc
+0x80069384 func hud_InitRaceHud hand builds HUD prim templates (code 0x2c/0x2e FT4 and 0x28 F4 bars), resets slots, layout from texture rects
+0x80069768 func hud_InitElementPositions hand initialises HUD element screen positions and halves them for split-screen mode flag
+0x8006980c func hud_ComputeScreenScale hand computes fixed point scale from screen width/height (0x80, 0xf0 divisors)
+0x80069874 func hud_LayoutElementPositions hand huge switch on screen layout 1-5 filling HUD element x,y position tables from font sizes (DAT_80089966/67)
+0x8006a54c func hud_SetCharRowPositions hand sets 8 consecutive HUD glyph x positions from start x with per-glyph width, same y
+0x8006a5b0 func hud_InitElementCallbacks hand loops 0x33 and 9 HUD element entries, dispatches through jump table PTR_LAB_8001f1f4/f2c4
+0x8006a684 func hud_SetElementVisibility hand sets per-element visible flags in HUD table depending on game mode (6, 7/8, 9/10) and split-screen
+0x8006a86c func hud_InitLabelStrings hand fills HUD label pointer table (Race, Best/Target, Wrong, Gate, Lap) for mode; calls hud_InitLapDigitSprites
+0x8006a988 func hud_InitLapDigitSprites hand per car allocates digit sprites for lap and position fields via FUN_8006de80, else calls FUN_8006ab04
+0x8006ab04 func hud_FreeLapDigitSprites hand per car releases up to 12 digit sprite slots via FUN_8006e2c4 and marks them 0xff
+0x8006abbc func hud_InitSpritePrims hand builds 0x2c SPRT (code 0x64) and 7 FT4 (0x2c) prim pairs from texture rect table for HUD elements
+0x8006adb4 func gpu_SetupSprt hand fills SPRT packet: len 4, code 0x64 (0x66 semi-trans), position, size, uv, clut from texture rect
+0x8006ae20 func gpu_SetupPolyFT4Rect hand fills POLY_FT4 packet code 0x2c: four corners from x,y,w,h and uv with half-texel inset
+0x8006af48 func hud_DrawRaceHud hand links HUD prims into ordering table (OT) per player screen by mode, calls FUN_8006cce8 and hud_AnimateHudIntro
+0x8006b478 func hud_AnimateHudIntro hand slides HUD elements in with countdown counter DAT +0x15d8, applies offsets and sets visible flags when done
+0x8006b968 func car_UpdateSpeedAndLapTimer hand computes speed from velocity vector (+0x6c), updates lap and total timers, calls FUN_8006ba58
+0x8006ba58 func hud_FormatTimeDigits hand converts ms time to minute second digits (divide by 6000, magic multiply 0x66666667) via jump table of digit setters
+0x8006bcb0 func hud_UpdateRacePanels hand per frame calls speedometer, gear, rev, lap and position HUD updaters for a car
+0x8006bd60 func hud_SetElementSprite hand sets HUD element slot texture rect from rect table index; zero visible flag when index -1
+0x8006be74 func hud_SetSpeedDigits hand splits value into hundreds tens ones and sets three HUD digit sprites 0x25-0x27 via hud_SetElementSprite
+0x8006bf44 func hud_SetGearDigit hand sets HUD gear sprite 0x28 from gear value, neutral via hud_SetCharSprite
+0x8006bf94 func hud_SetPositionLapDigits hand writes race position, lap count digits as chars to HUD slots, spawns ordinal text sprite via FUN_8006de80
+0x8006c2b0 func hud_SetTimeDigits hand converts 5 BCD time fields to 8 digit chars ('0a debug string:a debug string-') into HUD slots, jump table
+0x8006c414 func hud_SetCharSprite hand maps ASCII char to font glyph rect (two font sheets 0x3d/0x3e) and fills HUD sprite slot uv
+0x8006c588 func hud_ShowWrongWayText hand creates Wrong / Way text sprites via FUN_8006de80 when car heading is wrong
+0x8006c738 func hud_ShowFinalLapText hand creates Final Lap or Lap text sprites when lap counter changes, countdown at +0x4dd
+0x8006c918 func race_RankCarsByProgress hand computes per-car progress scaled by laps, sorts by position and adds random tie-break; LCG seed 0x41a7
+0x8006c928 func race_RankCarsByProgressTail hand duplicate tail of race_RankCarsByProgress with decompiler register parameter
+0x8006cb00 func time_ConvertMsToBcd hand converts ms time to packed BCD min:sec:hundredths via jump table; returns 0x595999 when overflow or -1
+0x8006cce8 func hud_SetGaugeValue hand clamps value to 255, resets gauge state byte, dispatches to gauge draw via PTR_LAB_8001f354
+0x8006cf70 func hud_GetProgressBarPos hand computes x,y of progress marker on bar from fraction 0..0x10000 and screen size for 2 layouts
+0x8006d068 func hud_UpdateMinimapMarkers hand computes minimap positions of bikes using map_BikeToMapXY and writes marker sprites
+0x8006d318 func hud_FreeWrongWaySprites hand releases two text sprite slots (+0x52,+0x53) via FUN_8006e2c4 while race state below 7
+0x8006d3b0 func hud_InitFlashIcon hand if magic 0xa5a5a5a5 set up two FT4 prims (code 0x2c, len 9), set timer 99999 and counter 5
+0x8006d420 func hud_StepFlashState hand resets flash timer and decrements flash counter when positive
+0x8006d440 func hud_TickFlashTimer hand increments flash timer while race state below 5 (excluding late countdown)
+0x8006d490 func hud_DrawStartCountdown hand picks countdown icon rect by counter 1-4 (3,2,1,GO), builds FT4 and links into OT
+0x8006d688 func math_Rotate2DShortPair hand rotates 16-bit x,y pair by 2x2 fixed matrix (sin/cos) with rounding
+0x8006d784 func math_Rotate2DIntPair hand rotates 32-bit x,y pair by 2x2 fixed matrix with 16.16 multiplies
+0x8006d870 func hud_RotateQuadAroundPoint hand rotates four quad vertices around centre by sin,cos with clamped scale
+0x8006d9f0 func hud_RotateQuadByAngle hand gets sin and cos of angle via FUN_8002a5f4 and FUN_8002a700 and calls hud_RotateQuadAroundPoint
+0x8006da6c func hud_UpdateRevNeedle hand computes needle angle from engine rpm and speed, rotates two needle quads around gauge centre
+0x8006dcd4 func hud_SetFontRect hand copies four words (texture rect) into font rect table entry at 0x800a45ec
+0x8006dd08 func hud_InitFontAndTextPools hand inits 512 SPRT (code 0x66) and 32 F4/G prims, builds glyph uv table from font sheets, clears 24 text slots
+0x8006de80 func text_AllocSprite hand finds free text slot (24 or 8 for list 1), calls text_BuildString, centres if flag 4, marks slot used
+0x8006dffc func text_BuildSpriteSlot hand converts string to glyph indices via text_AsciiToGlyphIndex, sums widths, applies align flags (centre/right) into text slot
+0x8006e2c4 func text_FreeSprite hand clears active flag byte of text slot index (stride 0x74 at 0x800a7c8c)
+0x8006e2ec func text_DrawAllSprites hand loops text slots computing alpha per mode (flash, fade) and calls text_DrawSpriteString for each active slot
+0x8006e580 func text_DrawSpriteString hand builds one POLY_FT4 per glyph with kerning, colour fade and links into OT; optional shadow box polys
+0x8006ecf8 func text_ScrollSpriteLeft hand moves text slot x left by 0x20 and returns 1 offscreen, 2 at screen centre, else 0
+0x8006ed88 func text_AsciiToGlyphIndex hand maps ASCII (and accented Latin-1) char to font glyph index for font sheet type; punctuation tables
+0x8006f060 func idx_OpenIndexArchive hand copies path, derives .IMG/.IDX names from IDXFILES.IMG, allocates index buffer, loads index file via FUN_80020c68
+0x8006f150 func idx_SelectArchive hand switches archive id; id 0 reopens IDX\IDXFILES.IMG and resets read position
+0x8006f1b4 func idx_GetEntryPtr hand returns index table base plus entry number times 16 bytes
+0x8006f1c8 func idx_LoadEntry hand walks index chain to nearest sector, reads and unpacks packed entry into allocated buffer
+0x8006f338 func sys_ResetAndLoadScreen hand ; stops sound, loads display and files, calls sys_InitRaceDisplay, then clears VRAM area at 0x801ffc00
+0x8006f3ac func sys_InitRaceDisplay hand ; sets heap constants, loops race frame until done, then DrawSync, SetDispMask and display setup
+0x8006f464 func race_RunFrame hand main per-frame race update: loops cars for physics, AI, camera, HUD, then draws per-player views with double buffering
+0x8006fddc func ResetGraph hand PsyQ ResetGraph; prints ResetGraph:jtb string, modes 0/3/5 reinit GPU env, else calls GPU vector
+0x8006ff50 func SetGraphDebug hand PsyQ SetGraphDebug stores debug level and prints level, type, reverse string
+0x8006ffac func SetDispMask hand PsyQ SetDispMask; enables or disables display via GPU command 0x03000000/1
+0x80070044 func DrawSync hand PsyQ DrawSync; prints DrawSync string at debug level then calls GPU vector 0x3c
+0x800700ac func gpu_CheckRect hand debug validates RECT inside display size, prints bad RECT message with coordinates
+0x800701c8 func ClearImage hand PsyQ ClearImage; checks rect and sends GPU command with RGB fill
+0x80070258 func LoadImage hand PsyQ LoadImage; checks rect and sends GPU command 0x20 vector call to upload to VRAM
+0x800702b8 func StoreImage hand PsyQ StoreImage; checks rect and sends GPU command 0x1c vector call to read VRAM
+0x80070318 func ClearOTag hand PsyQ ClearOTag; links n entries forward then writes terminator tag at 0x80089d7c
+0x800703e0 func ClearOTagR hand PsyQ ClearOTagR; calls GPU vector 0x2c for reverse-linked table, writes terminator tag
+0x8007048c func gpu_DrawPrimList hand DrawSync(0) then GPU vector 0x14 to send packet words after header, count from byte 3
+0x800704e8 func DrawOTag hand PsyQ DrawOTag; prints DrawOTag string then GPU vector 0x18 DMA of ordering table
+0x80070558 func PutDrawEnv hand PsyQ PutDrawEnv; builds draw mode packets via gpu_BuildDrawEnvPrim, sends them, saves env copy 0x5c bytes
+0x80070618 func DrawOTagEnv hand PsyQ DrawOTagEnv; builds draw env packet linked to given OT, sends it, saves env copy
+0x800706f0 func GetDrawEnv hand PsyQ GetDrawEnv; memcpy of current draw env 0x5c bytes to caller buffer
+0x80070724 func PutDispEnv hand PsyQ PutDispEnv; sends display area, horizontal and vertical range and display mode GPU commands, NTSC/PAL by size
+0x80070c1c func GetDispEnv hand PsyQ GetDispEnv; memcpy of current display env 0x14 bytes to caller buffer
+0x80070c50 func gpu_SetDrawModeTag hand builds a one-word DR_MODE tag packet (length 2) from tpage and texture window
+0x80070ca4 func gpu_BuildDrawEnvPrim hand builds draw env packet words e1 to e6 (clip, offset, mode, window) plus optional fill rect command 0x60
+0x80070e9c func gpu_BuildDrawEnvPrimFast hand same as gpu_BuildDrawEnvPrim but uses 0x02 quick fill when x and width are 64 aligned
+0x8007110c func gpu_MakeDrawModeWord hand builds GPU e1 draw mode word with tpage bits, dither and draw-on-display flags
+0x8007112c func gpu_MakeClipStartWord hand clamps x,y to display size and builds GPU e3 drawing area top-left word
+0x800711c4 func gpu_MakeClipEndWord hand clamps x,y to display size and builds GPU e4 drawing area bottom-right word
+0x8007125c func gpu_MakeOffsetWord hand builds GPU e5 drawing offset word from x and y (11 bits each)
+0x80071278 func gpu_MakeTexWindowWord hand builds GPU e2 texture window word from RECT-like struct, 0 if null
+0x80071310 func gpu_DmaToOtc hand starts DMA channel 6 (OTC) to clear ordering table of given length, waits with timeout, returns count or -1
+0x800713f0 func gpu_ClearRectQueued hand clamps rect and builds queued fill packet (fast 0x02 or 0x60) in buffer at 0x800a978c, sends via FUN_80071b54
+0x80071620 func gpu_LoadImageRaw hand clamps rect size, waits for GPU ready, writes 0xa0 CPU-to-VRAM command and rect then pixel words; returns -1 on timeout
+0x8007185c func gpu_StoreImageRaw hand clamps rect size, writes 0xc0 VRAM-to-CPU command and rect, reads pixel words from GPUREAD, DMA2 for rest
+0x80071adc func gpu_WriteGp1 hand writes GP1 control word and caches the value in shadow table indexed by command byte
+0x80071b14 func gpu_WriteGp0Words hand resets GP1 command buffer then writes n words to GP0 in a loop
+0x80071b54 func gpu_DmaLinkedList hand starts DMA2 linked-list transfer to GPU (chcr 0x1000401) from given address after setting GP1 DMA mode
+0x80071b9c func gpu_ReadInfo hand issues GP1 0x10 get-GPU-info command and returns 24-bit result from GPUREAD
+0x80071bcc func gpu_QueueCommandSimple hand wrapper calling gpu_QueueCommand with zero copy length
+0x80071bf0 func gpu_QueueCommand hand runs GPU command now or enqueues into 64-entry ring of 0x60-byte slots, then kicks gpu_RunQueue
+0x80071ea0 func gpu_RunQueue hand drains queued GPU commands in order while DMA idle, then fires drawsync callback when empty
+0x80072100 func gpu_ResetQueue hand resets queue indexes, sets DMA2 chcr, GP1 reset by mode, clears shadow tables, then gpu_DetectVersion
+0x80072250 func gpu_DrawSyncImpl hand DrawSync body; mode 0 waits for queue and DMA idle with timeout, else returns pending queue count
+0x8007238c func gpu_StartTimeout hand sets timeout deadline from VSync counter plus 0xf0 and clears spin counter
+0x800723c0 func gpu_CheckTimeout hand prints GPU timeout:que string with stat/chcr/madr, resets GPU queue and DMA, returns -1 on timeout
+0x80072504 func gpu_DetectVersion hand sends GP1 info 7 to read GPU type; returns 0/1/2 and sets mode on newer GPU
+0x800725ac func gpu_DrawOTagImpl hand waits for GPU idle with timeout, hooks callback then starts DrawOTag via GPU vector 0x18
+0x800726a0 func gpu_RestoreQueueCallback hand re-installs gpu_RunQueue as DMA callback after OT draw finishes
+0x800726c8 func mem_FillBytes hand memset style loop storing a byte value over n bytes
+0x800726f4 func text_ShiftJisToIndex hand converts Shift-JIS code to glyph table index via range tables at 0x80089e14/0x80089ee0, returns -1 if unmapped
+0x80072c50 func sys_ExitCriticalSection hand ; tiny syscall stub paired after sys_EnterCriticalSection pairs
+0x80072c80 func VSync hand PsyQ VSync; reads root counter, mode -1 returns frame count, 0 blocks to vblank, n waits n frames
+0x80072c90 func vsync_CounterVariant hand VSync-like copy using caller supplied counter pointer to measure elapsed vblank counts
+0x80072df8 func vsync_WaitFrames hand spins until vblank count reached, prints VSync: timeout and resets pad and counters on failure
+0x80072e90 func sys_EnterCriticalSection hand ; tiny syscall stub called before critical GPU/CD sequences
+0x80072ea0 func cd_ReadSectorCallback hand CD data-ready handler; reads sectors into buffer, prints CdRead: sector error, completes via callbacks
+0x80073118 func cd_ReadSectorDoneHandler hand per-sector read callback: advances dest ptr, decrements count, on zero restores CdSync/CdReady callbacks
+0x800731ec func cd_ReadStart hand starts CdRead command with shell-open check and retry; strings a debug string, a debug string
+0x800733d4 func CdRead hand sets sector count, buffer, mode (speed bits 0x200/0x246/0x249 DMA size), saves callbacks, calls cd_ReadStart
+0x800734d4 func CdReadSync hand waits/polls read completion with 0x4b0 vsync timeout and retry; returns sectors remaining
+0x8007359c func CdInit hand retries CD init up to 5 times, installs callbacks; string a debug string
+0x8007362c func cd_InitSubsystem hand calls two low-level init functions, returns true when both succeed
+0x80073668 func cd_DeliverEventCb20 hand callback delivering event 0xf0000003 class cdrom with spec 0x20
+0x80073690 func cd_DeliverEventCb40 hand callback delivering event 0xf0000003 with spec 0x40
+0x800736b8 func cd_DeliverEventCb40_2 hand second callback delivering event 0xf0000003 spec 0x40, set as DAT_8008a074 handler
+0x800736ec func CdSearchFile_head hand duplicated entry fragment of CdSearchFile with path parse using globals; provisional
+0x800736fc func CdSearchFile hand parses backslash path, walks directory table, finds 12-char file name, copies 24-byte entry; strings
+0x800739c4 func cd_CompareName12 hand strncmp of 12 chars returning equality
+0x800739e4 func cd_NewMedia hand reads ISO9660 PVD, checks a debug string, loads path table into dir cache; debug string
+0x80073ca8 func cd_FindDirIndex hand searches path-table entries for parent id and name via strcmp, returns index+1 or -1
+0x80073d4c func cd_CacheDirFiles hand reads directory sectors and caches up to 64 file entries; debug string
+0x80073fe8 func cd_ReadSectorsSync hand converts LBA with CdIntToPos, CdControl setloc, CdRead, CdReadSync blocking, returns success
+0x8007406c func cd_GetStatus hand returns last CD status byte from DAT_8008be0c
+0x8007407c func cd_GetMode hand returns current CD mode byte DAT_8008be1c
+0x8007408c func cd_GetResultBuffer hand returns address of CD result buffer DAT_8008be18
+0x80074098 func cd_ResetWrap hand thin wrapper calling FUN_800796a0
+0x800740b8 func cd_SyncStatusName hand returns string pointer from table (NoIntr...) for sync status 0-6 else none
+0x800740ec func CdSync hand thin wrapper calling FUN_80078cc4 (sync wait)
+0x8007410c func CdReady hand thin wrapper calling FUN_80078f44 (ready wait)
+0x8007412c func CdSyncCallback hand sets complete callback PTR_FUN_8008be00 and returns old
+0x80074140 func CdReadyCallback hand sets data-ready callback PTR_FUN_8008be04 and returns old
+0x80074154 func CdControl hand sends CD command with param, retries 4 times, clears callback during command
+0x80074290 func CdControlF hand CdControl variant with flag arg 1 (fast, no result), retries 4 times
+0x800743c4 func CdControlB hand CdControl then CdSync wait; returns true when sync result 2 complete
+0x80074510 func CdMix hand wrapper writing 4 CD audio volume bytes via FUN_80079618, returns 1
+0x80074530 func CdGetSector hand wrapper: DMA3 CD data to RAM blocking via FUN_80079bac, true on success
+0x80074550 func CdGetSector2 hand wrapper: DMA3 CD data to RAM via FUN_80079cac (burst variant), true on success
+0x80074570 func CdDataCallback hand sets DMA channel 3 (CD) callback via FUN_800751e4
+0x80074594 func CdDataSync hand thin wrapper calling FUN_80079a44 waiting for CD DMA completion
+0x800745b4 func CdIntToPos hand LBA+150 to BCD minute/second/frame (75 frames, 60 s)
+0x800746b8 func CdPosToInt hand BCD min/sec/frame to LBA minus 150
+0x80074738 func VectorNormal hand copies input vector, calls GTE normalize core, writes result vector
+0x80074798 func gte_VectorNormalCore hand GTE SQR, sums squares, LZCR, table lookup, GPF scale; unit vector
+0x80074858 func SquareRoot0 hand integer square root using LZCR and table lookup
+0x800748e8 func ratan2 hand arctangent of y/x via table, 0x800 = half turn, 4096=360 degrees
+0x80074a68 func SetGeomOffset hand writes GTE OFX OFY control registers (x<<16, y<<16)
+0x80074a88 func gpu_SetPolyF4 hand sets primitive len 5 and code 0x28 POLY_F4
+0x80074aa8 func SetDefDrawEnv hand initializes DRAWENV clip rect, offsets, dither flag by width, default values
+0x80074b5c func SetDefDispEnv hand initializes DISPENV rect x,y,w,h and zero fields
+0x80074ba8 func spu_SetVoicePitch hand writes pitch halfword at voice register +4 (0x10 stride) with short delay loop
+0x80074c18 func spu_SetKey hand writes voice key-off (0x18c) or key-on (0x188) 24-bit masks, with shadow state
+0x80074dd8 func spu_SetVoiceVolume hand writes left and right volume (masked 0x7fff) at voice register 0x10 stride
+0x80074e58 func spu_SetTransferMode hand calls FUN_8007a6e0 with (mode<<3|3) plus short delay; provisional
+0x80074ed8 func spu_SetVoiceADSRUpper hand updates voice register +10 (ADSR upper half) keeping low 6 bits; provisional
+0x80074f78 func SetDrawMove hand builds VRAM-to-VRAM copy packet: 0x80000000 cmd, src rect, dst x,y; len 5 or 0 if empty
+0x80074fd8 func gte_LeadingZeroCount hand writes LZCS (cop2 r30) and reads LZCR (r31)
+0x80074ff4 func ApplyMatrixSV hand loads GTE rotation matrix and short vector, MVMVA 0x486012, stores MAC1-3 to output
+0x80075060 func memcmp hand byte compare loop returns difference or zero
+0x800750a4 func SetDrawMode hand builds 0xe1 draw-mode packet with dfe, dtd flags and tpage bits
+0x800750d4 func GetTPage hand builds texture page value from tp mode, abr, x, y
+0x80075114 func SetSemiTrans hand sets or clears semi-transparency bit 2 in primitive code byte at +7
+0x80075144 func gpu_MergePrimLen hand merges two primitive blocks if combined length at +3 is 16 or less
+0x80075184 func intr_Thunk0C hand tail-calls function at table PTR_PTR_8008bba4 offset 0xc
+0x800751b4 func intr_Thunk08 hand tail-calls function at table PTR_PTR_8008bba4 offset 8
+0x800751e4 func DMACallback hand tail-calls table offset 4 (dma channel, callback); used with channel 3
+0x80075214 func VSyncCallback hand calls table offset 0x14 (VSyncCallbacks) with slot 4 and callback
+0x80075248 func intr_Thunk10 hand tail-calls function at table PTR_PTR_8008bba4 offset 0x10
+0x80075278 func CheckCallback hand returns in-interrupt-handler flag DAT_8008ab1e
+0x80075288 func intr_SetIMask hand writes new value to I_MASK register pointer, returns old
+0x800752a0 func ResetCallback hand intr.c init: clears I_STAT/I_MASK, SaveState, SetCustomExitFromException, CdRemove
+0x80075378 func intr_ExceptionHandler hand dispatches pending irq bits to callbacks; strings a debug string, a debug string
+0x80075548 func InterruptCallback hand sets callback for irq number, updates mask, ChangeClearPad/RCnt
+0x80075690 func StopCallback hand restores default exit from exception, saves and clears I_MASK
+0x80075730 func RestartCallback hand reinstalls custom exit and restores saved I_MASK
+0x800757a8 func mem_ZeroWords hand clears N words at pointer
+0x800757dc func lib_Thunk_8007aef4 hand thin wrapper calling FUN_8007aef4
+0x800757fc func lib_Thunk_8007afc0 hand thin wrapper calling FUN_8007afc0
+0x8007581c func PadGetState hand libpad: returns port state byte +0x49 remapped (discon/find/reqinfo/stable) via port-struct lookup
+0x800758dc func PadInfoMode hand libpad: returns controller id, ext id, term count or term table entry by selector from port struct
+0x800759d4 func PadInfoAct hand libpad: returns actuator table entry field 1-5 or count from port struct
+0x80075aa8 func pad_SetCmdBuf hand libpad: gets port struct, calls FUN_8007becc with arg; provisional
+0x80075ae0 func PadSetMainMode hand libpad: gets port struct, forwards (offs, lock) to FUN_8007b8c8 mode set; provisional
+0x80075b30 func rcos hand cosine via 4096-entry quarter table lookups, angle 4096=360 degrees
+0x80075bd0 func rsin hand signed-angle sine wrapper calling rsin core with mask 0xfff
+0x80075c0c func rsin_Core hand sine of angle 0..0xfff using quadrant table lookups
+0x80075ca0 func RotMatrix hand builds 3x3 rotation matrix from three angles using 32-bit sin/cos table in software
+0x80075f38 func InitGeom hand sets cop0 status bit for GTE, writes H, ZSF3/ZSF4, DQA/DQB, OFX/OFY control regs
+0x80075fc0 func SetGeomScreen hand writes GTE control register 26 (H projection distance)
+0x80075fd0 func TransMatrix hand copies translation vector into matrix at offset 0x14
+0x80076000 func SetVideoMode hand stores video mode global DAT_8008bbd4, returns previous
+0x80076014 func GetVideoMode hand returns video mode global DAT_8008bbd4
+0x80076030 func SetTransMatrix hand loads GTE TRX TRY TRZ from matrix offsets 0x14-0x1c
+0x80076050 func MulMatrix2 hand GTE MVMVA applied to each column of second matrix with first as rotation, result in second
+0x80076160 func SetRotMatrix hand loads five GTE rotation matrix control words
+0x80076190 func PadInitDirect hand libpad init: sets port callback table, zeroes 2 ports with 4 slots of 0xf0 bytes, takes two pad buffers
+0x800763b0 func pad_ResetSlotState hand clears slot state fields and sets request bytes to 0xff when slot active
+0x80076418 func pad_AdvancePortCb hand libpad per-port completion step: updates mode flags, advances port index until next active slot
+0x80076528 func pad_ShiftHistory hand shifts button history bytes across the four multitap slots
+0x8007656c func pad_ReadResponseByte hand returns data byte from slot response buffer by index and mode; provisional
+0x8007667c func pad_BuildRequestSlots hand libpad: marks which slots send actuator/mode requests within 0x3d byte budget, bzero 6 bytes
+0x80076974 func pad_GetSlotStruct hand returns slot struct pointer for port/slot id (0xf0 stride, port 1 at 0x800ad65c)
+0x800769f0 func SpuGetKeyStatus hand returns key state 0-3 for voice mask using voice register +0xc and key shadow
+0x80076a80 func spu_SetVoiceADSR hand packs attack/decay/sustain/release with mode codes into voice registers +8 and +10
+0x80076bc0 func SpuInitMalloc hand sets up SPU RAM allocator header (0x40001010) with block count and work area
+0x80076c20 func SpuSetTransferMode hand stores transfer mode (0/1/other) into SPU transfer globals
+0x80076c50 func spu_GetTransferAddr hand range checks arg then reads SPU transfer address via FUN_8007a6e0, shifted; provisional
+0x80076cb0 func CdPlay hand starts CD-DA playback of track list, repeat modes; string a debug string
+0x80076e98 func cd_PlayDataReadyCb hand CD ready callback for CdPlay: track end handling; strings cbdataready CdlDataEnd, CdPlay Error
+0x80077024 func cd_PlayStartTrack hand starts next CD-DA track via CdControl play; string a debug string
+0x8007719c func cd_StopPlay hand clears callback, sends CdControl pause, loops CdControlB until motor stops
+0x80077210 func SpuSetReverbModeParam hand sets reverb mode from preset table (10 modes), depth, delay, feedback by mask bits
+0x800776f0 func SpuWrite hand clamps size to 0x7eff0 and calls SPU DMA write function FUN_8007a618
+0x80077750 func SpuSetCommonAttr hand sets main volumes with sweep modes, CD/ext volumes and SPUCNT mix bits by mask
+0x80077ad0 func spu_ClearArea hand DMAs zero buffer to SPU RAM in 0x400 chunks, waits event per chunk; returns bytes cleared
+0x80077c30 func SquareRoot12 hand fixed-point integer sqrt using LZCR and table, result scaled for 12-bit fraction
+0x80077cd0 func SpuMalloc hand allocates SPU RAM block from free-list table with split, 64-bit entries flagged 0x40000000/0x80000000
+0x80077fa0 func SpuReserveReverbWorkArea hand sets reverb work area reserved flag if area check passes
+0x80077ff0 func SpuClearReverbWorkArea hand zero-fills reverb work area for given reverb mode via DMA chunks
+0x80078190 func SpuGetReverbWorkAreaStatus hand returns reserved flag or whether work area for current mode passes check
+0x800781d0 func SpuSetReverbDepth hand writes reverb depth L/R registers 0x184/0x186 by mask
+0x80078250 func spu_SetVoiceFlagPair hand calls FUN_8007d5ac with command ids 0xcc,0xcd; provisional
+0x80078280 func SpuSetReverb hand sets or clears reverb master enable bit 0x80 in SPUCNT
+0x80078350 func spu_InitDefault hand one-line wrapper calling spu_Init(0), address in name is unhelpful
+0x80078370 func SpuIsTransferCompleted hand TestEvent on SPU DMA event, optionally busy waits
+0x80078420 func SpuQuit hand disables SPU event, closes it, clears state under critical section
+0x80078558 func stub_80078558 hand sets flag DAT_8008bda4 to 1 if zero
+0x800785c8 func stub_800785c8 hand empty function, returns immediately
+0x80078608 func vsync_InitCallbackTable hand sets timer mode 0x100, clears 8-entry vsync callback table, hooks vsync irq handler
+0x80078660 func vsync_IrqHandler hand increments vsync counter and calls each of 8 registered callbacks
+0x80078668 func vsync_IrqHandler_Tail hand split tail, v0 holds counter+1, loops 8 callbacks
+0x800786cc func VSyncCallbacks hand sets callback slot (index 0-7) in vsync callback table
+0x800786f8 func mem_ZeroWords_2 hand clears N words at pointer
+0x80078768 func cd_IrqHandler hand CDROM interrupt handler: reads response bytes, status, sets sync/ready flags; debug string, CdlPlay
+0x80078cc4 func cd_SyncImpl hand CdSync body: polls irq handler until command complete, timeout; debug string, CD timeout
+0x80078f44 func cd_ReadyImpl hand CdReady body: polls until data-ready or complete result, timeout; debug string
+0x8007920c func cd_IssueCommand hand writes command and params to CD registers, waits for ack; debug string, a debug string
+0x80079618 func cd_MixImpl hand writes four volume bytes to CD regs index 2/3 (audio volume matrix), applies with 0x20
+0x800796a0 func cd_ResetHw hand acknowledges all CD interrupts, clears flags, sets delay control 0x1325
+0x80079774 func cd_EnableCdAudioSpu hand sets SPU CD/main volumes 0x3fff, SPUCNT 0xc001, writes CD volume regs 0x80
+0x8007978c func cd_EnableCdAudioSpu_Tail hand split tail of cd_EnableCdAudioSpu, v1 holds SPU base
+0x80079864 func cd_InitHw hand CD_init: installs cd irq handler, resets, sends Init and Demute commands; debug string, addr
+0x80079a44 func cd_DataSyncImpl hand waits for DMA3 busy bit clear with timeout; debug string
+0x80079bac func cd_DmaToRamBlocking hand programs DMA3 MADR/BCR/CHCR 0x11000000 from CD, waits completion
+0x80079cac func cd_DmaToRamAsync hand programs DMA3 MADR/BCR then CHCR 0x11400100 chopped, returns immediately
+0x80079d48 func cd_DmaStartFragment hand waits for ready bit then writes DMA3 CHCR 0x11400100; fragment entry
+0x80079da4 func cd_IrqEntry hand CD irq callback: loops cd_IrqHandler dispatching ready and sync callbacks
+0x80079dac func cd_IrqEntry_Tail hand split tail of CD irq entry, loops cd_IrqHandler and fires callbacks
+0x80079e9c func spu_Reset hand SPU reset: waits status with a debug string timeout, clears voices, reverb, volumes, sets SPUCNT 0xc000
+0x8007a11c func spu_WritePio hand pushes halfwords to SPU data fifo 0x1a8 in 64-byte chunks, waits wrdy and dmaf; SPU:T/O strings
+0x8007a12c func spu_WritePio_Tail hand split tail of spu_WritePio, register-held args, SPU timeout strings
+0x8007a2dc func spu_DmaDoneCb hand clears SPUCNT transfer mode, waits, then calls user callback or DeliverEvent 0xf0000009/0x20
+0x8007a2e4 func spu_DmaDoneCb_Tail hand split tail of spu_DmaDoneCb, delivers event 0xf0000009
+0x8007a398 func spu_TransferCtl hand SPU transfer control: modes 0 read, 1 write, 2 set address, 3 start DMA4 transfer
+0x8007a3a8 func spu_TransferCtl_Tail hand split tail of spu_TransferCtl with stack-passed args
+0x8007a618 func spu_WriteData hand writes buffer to SPU RAM via DMA4 transfer control, or PIO when flag set
+0x8007a69c func spu_SetRegShifted hand stores halfword to SPU register, optionally shifting address by SPU address shift
+0x8007a6e0 func spu_AlignAddrToReg hand rounds SPU RAM address up to alignment, shifts, stores to register or returns value
+0x8007a7dc func spu_DmaDirFromRam hand sets DMA4 channel control control bits for RAM to SPU direction
+0x8007a804 func spu_DmaDirToRam hand sets DMA4 channel control bits 0x22 for SPU to RAM direction
+0x8007a82c func spu_Delay hand busy loop counting to 0x3c, short SPU settling delay
+0x8007a894 func spu_Init hand SPU init: intr setup, spu_Reset, sets voice flags 0xc000, installs event, clears state variables
+0x8007a97c func spu_InitEvent hand once-only: opens SPU event class 0xf0000009 spec 0x20, enables it, installs DMA callback
+0x8007aa14 func dma_InitCallbackTable hand clears DMA callback table, registers DMA IRQ handler via InterruptCallback 3
+0x8007aa60 func dma_IrqHandler hand DMA irq: dispatches per-channel callbacks from DICR flags; prints DMA bus error and MADR
+0x8007aa68 func dma_IrqHandler_Tail hand split tail of DMA irq handler, v0 holds DICR pointer
+0x8007abe0 func dma_SetChannelCallback hand sets or clears per-channel DMA callback in table, updates DICR enable bits, returns old callback
+0x8007ac8c func mem_ZeroWords_3 hand clears count words at pointer, small memset-zero loop
+0x8007acf4 func pad_InitHandlers hand stores pad vsync handler and irq check pointers, clears pad driver state
+0x8007ad20 func pad_VblankIrqCheck hand tests I_STAT and I_MASK bit0 vblank, calls callback, returns 1 if fired
+0x8007ad28 func pad_VblankIrqCheck_Tail hand split tail of pad_VblankIrqCheck, pointer in v1
+0x8007ad88 func pad_VsyncHandler hand per-vblank pad driver: counts no-response frames, runs slot transactions via pad_ProcessSlot and step loop
+0x8007aef4 func pad_StartDriver hand installs pad handler SysEnqIntRP priority 2, enables vblank irq, resets root counter, inits both slots
+0x8007afc0 func pad_StopDriver hand removes pad handler via SysDeqIntRP, ChangeClearRCnt 3,1 under critical section
+0x8007b004 func pad_ProcessSlot hand runs one pad port transaction: select, 0x01 0x42 exchange bytes via SIO, waits ack, returns success
+0x8007b338 func pad_RunStep hand calls next pad state function from table, on negative calls error callback, waits ack
+0x8007b400 func sio_ExchangeByteTx hand waits SIO tx ready and ack, sends byte, stores received byte into slot buffer with timeout
+0x8007b5d8 func sio_ExchangeByteRx hand sends one byte to SIO, polls ack with root counter timeout, stores response in slot buffer
+0x8007b810 func sio_WaitAckLow hand clears irq flag, waits SIO status DSR bit clear with timeout, enables ack interrupt
+0x8007b8a0 func sio_WaitTxReady hand spins until SIO status TX ready bit set
+0x8007b8c8 func pad_SetSlotBuffer hand stores pointer at slot+0x28 and byte at slot+0x34
+0x8007b8d4 func pad_SendStateStep hand dispatches by slot state 2/3/4 to byte-send helpers for pad protocol phases
+0x8007b958 func pad_ParseHeader hand parses pad reply header by state: id, size, data counts, advances protocol state
+0x8007baa4 func pad_CalcPayloadSize hand computes total pad request size from slot counters and offset fields
+0x8007badc func pad_BeginRequest hand starts pad request: sets state 1, callbacks, computes buffer offsets, returns 1 on success
+0x8007bbb0 func pad_RxStateStep hand per-state receive step dispatcher for pad protocol states 2/3/4
+0x8007becc func pad_BeginRequestAlt hand like pad_BeginRequest: sets state 1 and alternate callbacks, stores param at slot+0x20
+0x8007c018 func pad_SetCmd43 hand sets slot command byte 0x43 with one data byte (enter config mode)
+0x8007c038 func pad_SetCmd45 hand sets slot command byte 0x45 with no data (get controller status)
+0x8007c04c func pad_SetCmd4C hand sets slot command byte 0x4c with one data byte (get variable response)
+0x8007c06c func pad_SetCmd46 hand sets slot command byte 0x46 with one data byte (get actuator info)
+0x8007c08c func pad_SetCmd47 hand sets slot command byte 0x47 with one data byte (get actuator combination)
+0x8007c0ac func pad_SetCmd4B hand sets slot command byte 0x4b with no data
+0x8007c0cc func bios_PatchPadKernelTable hand under critical section compares then overwrites kernel table words, calls FlushCache
+0x8007c1ac func pad_InstallStateFuncs hand stores three pad state function pointers into driver globals
+0x8007c1e0 func pad_SlotPollStep hand per-slot pad poll: checks multitap and config state, dispatches command or protocol step
+0x8007c3b8 func pad_SlotRxDone hand processes pad reply: copies id and data into slot buffer, tracks state, advances protocol state
+0x8007c748 func pad_SlotError hand handles missing or bad pad reply: retry counters, resets slot to disconnected, multitap fanout
+0x8007ca24 func pad_SlotBusyCheck hand returns whether slot or its multitap siblings are still mid transaction
+0x8007caec func CdGetToc hand wrapper calling CdGetToc2 with track one, returns track count
+0x8007cb10 func cd_GetToc2 hand reads first and last track via CD commands 0x13 and 0x14; debug string, track=%d,%d
+0x8007cd3c func spu_IsAddrInMallocList hand walks SPU malloc list testing whether shifted address is inside an allocated block
+0x8007cdcc func spu_WriteReverbRegs hand writes reverb parameter halfwords to SPU registers 0x1c0.. per mask bit, SpuSetReverbModeParam core
+0x8007d2ac func spu_DefragMallocList hand merges adjacent free SPU malloc blocks, sorts by address, trims trailing free entries
+0x8007d5ac func spu_ModifyVoiceMask hand sets, clears or writes 24-bit voice mask across two SPU registers, shadow copy when flag
+0x8007d87c func spu_SetDmaCallback hand calls DMACallback for channel 4 (SPU) with given handler
+0x8007d91c func pad_StartTimeout hand stores timeout ticks, latches root counter 2 value 0x1f801120 as start
+0x8007d93c func pad_TimeoutElapsed hand compares root counter 2 elapsed ticks with stored timeout, handles wrap and divide by 8
+0x8007d9dc func pad_BeginPoll hand calls slot state function, clears first buffer byte, sends dummy byte via sio_ExchangeByteTx
+0x8007da34 func pad_SendCmdByte hand sends command byte (default 0x42) for slot, optional multitap callbacks, via sio_ExchangeByteRx
+0x8007dafc func pad_ReadIdByte hand sends byte, parses pad id low nibble into halfword count DAT_80091328, error if high nibble zero
+0x8007db04 func pad_ReadIdByte_Tail hand split tail of pad_ReadIdByte, register-held arg
+0x8007dbbc func pad_ReadHeaderAck hand sends byte through callback, expects 0x5a ready marker, else error -9
+0x8007dc48 func pad_TransferData hand loops exchanging pad data bytes over SIO with multitap handling, timeouts, stores final byte
+0x8007f7b0 func stub_8007f7b0 hand trap 0x1c8 only, data or mis-decoded code, no real function
+0x80080000 func data_80080000 hand bad instruction data, not code
+0x80080138 func data_80080138 hand bad instruction data, not code
+0x80080408 func data_80080408 hand bad instruction data, not code
+0x80080410 func data_80080410 hand bad instruction data, not code
+0x8009885c func data_8009885c hand bad instruction data, not code
+0x800a8048 func data_800a8048 hand bad instruction data with overlapping instructions, not code
+0x800bcfcc func data_800bcfcc hand bad instruction data, not code
+0x800c0000 func data_800c0000 hand bad or unimplemented instruction data in dump, not real code
+0x800c0138 func data_800c0138 hand bad or unimplemented instruction data in dump, not real code
+0x800c0580 func data_800c0580 hand bad or unimplemented instruction data in dump, not real code
+0x800f8078 func data_800f8078 hand bad or unimplemented instruction data in dump, not real code
+0x800f8080 func data_800f8080 hand bad or unimplemented instruction data in dump, not real code
+0x800f8088 func data_800f8088 hand bad or unimplemented instruction data in dump, not real code
+0x80100000 func data_80100000 hand bad or unimplemented instruction data in dump, not real code
+0x80100078 func data_80100078 hand bad or unimplemented instruction data in dump, not real code
+0x80100088 func data_80100088 hand bad or unimplemented instruction data in dump, not real code
+0x80100138 func data_80100138 hand bad or unimplemented instruction data in dump, not real code
+0x801007fc func data_801007fc hand bad or unimplemented instruction data in dump, not real code
+0x80117fb8 func data_80117fb8 hand bad or unimplemented instruction data in dump, not real code
+0x80136918 func data_80136918 hand bad or unimplemented instruction data in dump, not real code
+0x80136a58 func data_80136a58 hand bad or unimplemented instruction data in dump, not real code
+0x80136b98 func data_80136b98 hand bad or unimplemented instruction data in dump, not real code
+0x801387e4 func data_801387e4 hand bad or unimplemented instruction data in dump, not real code
+0x80138c34 func data_80138c34 hand bad or unimplemented instruction data in dump, not real code
+0x8013b544 func data_8013b544 hand bad or unimplemented instruction data in dump, not real code
+0x8013b658 func data_8013b658 hand bad or unimplemented instruction data in dump, not real code
+0x8013c99c func data_8013c99c hand bad or unimplemented instruction data in dump, not real code
+0x8013c9c8 func data_8013c9c8 hand bad or unimplemented instruction data in dump, not real code
+0x80140000 func data_80140000 hand bad or unimplemented instruction data in dump, not real code
+0x80140138 func data_80140138 hand bad or unimplemented instruction data in dump, not real code
+0x80142a40 func data_80142a40 hand bad or unimplemented instruction data in dump, not real code
+0x8014653c func data_8014653c hand bad or unimplemented instruction data in dump, not real code
+0x801468d0 func data_801468d0 hand bad or unimplemented instruction data in dump, not real code
+0x801469d0 func data_801469d0 hand bad or unimplemented instruction data in dump, not real code
+0x8017d5c0 func data_8017d5c0 hand bad or unimplemented instruction data in dump, not real code
+0x80180138 func data_80180138 hand bad or unimplemented instruction data in dump, not real code
+0x80180890 func data_80180890 hand bad or unimplemented instruction data in dump, not real code
+0x80182c04 func data_80182c04 hand bad or unimplemented instruction data in dump, not real code
+0x80184000 func data_80184000 hand bad or unimplemented instruction data in dump, not real code
+0x801988a8 func data_801988a8 hand bad or unimplemented instruction data in dump, not real code
+0x801c0000 func data_801c0000 hand bad or unimplemented instruction data in dump, not real code
+0x801c0138 func data_801c0138 hand bad or unimplemented instruction data in dump, not real code
+0x801cfcf0 func data_801cfcf0 hand bad or unimplemented instruction data in dump, not real code
+0x801cfd30 func data_801cfd30 hand bad or unimplemented instruction data in dump, not real code
+0x801d1cf0 func data_801d1cf0 hand bad or unimplemented instruction data in dump, not real code
+0x801d1d30 func data_801d1d30 hand bad or unimplemented instruction data in dump, not real code
+0x801d3af0 func data_801d3af0 hand bad or unimplemented instruction data in dump, not real code
+0x8003253c func obj_RunPathScript_case5 hand switch case 5 of obj_RunPathScript split off by Ghidra (jump table at 80031f10)
+0x80075044 func memcmp_Thunk hand thunk to memcmp

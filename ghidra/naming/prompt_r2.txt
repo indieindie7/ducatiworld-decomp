@@ -1,0 +1,9 @@
+Second review of provisional function names in a PlayStation (MIPS R3000, PsyQ, GCC) game decompile: Ducati World: Racing Challenge (Acclaim / ATD, USA). Research only. Name from what the code does; never copy text from any leaked source.
+FILE holds Ghidra decompiles ("// ==== <name> @ <addr> size=N" headers) of functions whose first-pass name was marked provisional or has a _<number> suffix. All other functions already have names (you see them as callees). The bike is called "car" in code (car_ = bike physics/state, phys_ = collision/rigid body, lev_ = level load, gpu_/cd_/spu_/pad_ = hardware helpers, PsyQ library functions keep their SDK names). Many small functions are Ghidra splits (a tail fragment of the function just before it, entered by fall-through or a branch): name those <owner>_Tail and say so. Functions named stub_<addr> / ret<N>_<addr> are fine as they are (CONFIRM).
+For each function decide:
+- CONFIRM: the name fits.
+- RENAME: a clearly better name (prefix + underscore + CamelCase, letters digits underscore).
+- UNSURE: still not enough evidence. Keep it.
+Write each verdict line to OUT as soon as you decide it (append as you go), in file order, exactly:
+0x<addr 8 lowercase hex> <oldname> CONFIRM|RENAME|UNSURE <newname or oldname> <short reason, one line>
+Every function in FILE gets exactly one line. Read FILE in pieces (about 600 lines at a time). Edit no other file. At the end reply only with the counts.
